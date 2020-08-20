@@ -41,16 +41,17 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         '/js/app/simulation/simBackgrounds/microbitBackground.svg', '/js/app/simulation/simBackgrounds/simpleBackground.svg',
         '/js/app/simulation/simBackgrounds/drawBackground.svg', '/js/app/simulation/simBackgrounds/robertaBackground.svg',
         '/js/app/simulation/simBackgrounds/rescueBackground.svg', '/js/app/simulation/simBackgrounds/wroBackground.svg',
-        '/js/app/simulation/simBackgrounds/mathBackground.svg'
+        '/js/app/simulation/simBackgrounds/mathBackground.svg', '/js/app/simulation/simBackgrounds/roboraveBackground.svg'
     ];
     var imgListIE = ['/js/app/simulation/simBackgrounds/baustelle.png', '/js/app/simulation/simBackgrounds/ruler.png',
         '/js/app/simulation/simBackgrounds/wallPattern.png', '/js/app/simulation/simBackgrounds/calliopeBackground.png',
         '/js/app/simulation/simBackgrounds/microbitBackground.png', '/js/app/simulation/simBackgrounds/simpleBackground.png',
         '/js/app/simulation/simBackgrounds/drawBackground.png', '/js/app/simulation/simBackgrounds/robertaBackground.png',
         '/js/app/simulation/simBackgrounds/rescueBackground.png', '/js/app/simulation/simBackgrounds/wroBackground.png',
-        '/js/app/simulation/simBackgrounds/mathBackground.png'
+        '/js/app/simulation/simBackgrounds/mathBackground.png', '/js/app/simulation/simBackgrounds/roboraveBackground.png'
     ];
     var imgObjectList = [];
+    var RR_BG = 8;
 
     function preloadImages() {
         if (isIE()) {
@@ -574,6 +575,12 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             obstacle.h = 50;
             obstacle.color = "#009EE3";
             obstacle.img = null;
+        } else if (currentBackground == RR_BG) {
+            obstacle.x = 734;
+            obstacle.y = 62;
+            obstacle.w = 60;
+            obstacle.h = 20;
+            obstacle.color = "#F68712";
         } else {
             var x = imgObjectList[currentBackground].width - 50;
             var y = imgObjectList[currentBackground].height - 50;
@@ -594,6 +601,13 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             ruler.h = 30;
             ruler.img = imgRuler;
             ruler.color = null;
+	//} else if (currentBackground == RR_BG) {
+        //    ruler.x = 200;
+        //    ruler.y = 200;
+        //    ruler.w = 300;
+        //    ruler.h = 30;
+        //    ruler.img = imgRuler;
+        //    ruler.color = null;
         } else {
             // All other scenes currently don't have a movable ruler.
             ruler.x = 0;
@@ -1120,6 +1134,19 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             robot.canDraw = true;
             robot.drawColor = "#ffffff";
             robot.drawWidth = 1;
+        } else if (currentBackground == RR_BG) {
+            var cx = 71;
+            var cy = 460;
+            robot = new reqRobot({
+                x: cx,
+                y: cy + yOffset,
+                theta: -Math.PI / 2,
+                xOld: cx,
+                yOld: cy + yOffset,
+                transX: -cx,
+                transY: -cy
+            }, configuration, num, robotBehaviour);
+            robot.canDraw = false;
         } else {
             var cx = imgObjectList[currentBackground].width / 2.0 + 10;
             var cy = imgObjectList[currentBackground].height / 2.0 + 10;
