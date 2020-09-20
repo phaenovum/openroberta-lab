@@ -1778,3 +1778,5 @@ Blockly.Msg.MATH_CHANGE_TITLE_ITEM = Blockly.Msg.VARIABLES_DEFAULT_NAME;
 Blockly.Msg.HTCOLOUR_RGB_GETSAMPLE_TOOLTIP = Blockly.Msg.COLOUR_RGB_GETSAMPLE_TOOLTIP;
 //Added Msgs
 Blockly.Msg.OBTAINACCOUNT = "Um einen Account zu erhalten registrieren sie ein Team unter my.roborave.de.";
+Blockly.Msg.MENU_UPLOAD = "Hochladen";
+Blockly.Msg.MENU_SUBMIT_SOLUTION = "Lösung einreichen";

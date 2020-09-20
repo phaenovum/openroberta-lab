@@ -1776,5 +1776,7 @@ Blockly.Msg.SENSOR_TEMPERATURE_GETSAMPLE_TOOLTIP = Blockly.Msg.TEMPERATURE_GETSA
 Blockly.Msg.SENSOR_TOUCH_GETSAMPLE_TOOLTIP = Blockly.Msg.TOUCH_GETSAMPLE_TOOLTIP;
 Blockly.Msg.MATH_CHANGE_TITLE_ITEM = Blockly.Msg.VARIABLES_DEFAULT_NAME;
 Blockly.Msg.HTCOLOUR_RGB_GETSAMPLE_TOOLTIP = Blockly.Msg.COLOUR_RGB_GETSAMPLE_TOOLTIP;
-// Modified MSGs
+// Added MSGs
 Blockly.Msg.OBTAINACCOUNT = "To obtain a account register at my.roborave.de.";
+Blockly.Msg.MENU_UPLOAD = "Upload";
+Blockly.Msg.MENU_SUBMIT_SOLUTION = "Submit solution";

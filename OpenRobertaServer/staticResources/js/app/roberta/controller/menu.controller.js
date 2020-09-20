@@ -433,6 +433,18 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
             }
         }, 'program edit clicked');
 
+        // UPLOAD Menu
+        $('#head-navigation-upload').onWrap('click', '.dropdown-menu li:not(.disabled) a', function(event) {
+            switch (event.target.id) {
+            case 'menuSubmitSolution':
+				var link = "https://my.roborave.de/submitSolution.php?link="+ encodeURIComponent(PROGRAM_C.getLink());
+                window.open(link);
+                break;
+            default:
+                break;
+            }
+        }, 'upload edit clicked');
+
         // CONF Menu
         $('#head-navigation-configuration-edit').onWrap('click', '.dropdown-menu li:not(.disabled) a', function(event) {
             $('.modal').modal('hide'); // close all opened popups
