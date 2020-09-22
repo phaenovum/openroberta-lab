@@ -42,7 +42,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         '/js/app/simulation/simBackgrounds/drawBackground.svg', '/js/app/simulation/simBackgrounds/robertaBackground.svg',
         '/js/app/simulation/simBackgrounds/rescueBackground.svg', '/js/app/simulation/simBackgrounds/wroBackground.svg',
         '/js/app/simulation/simBackgrounds/mathBackground.svg', '/js/app/simulation/simBackgrounds/roboraveBackground.svg',
-        '/js/app/simulation/simBackgrounds/RoboRaveMaze.svg'
+        '/js/app/simulation/simBackgrounds/RoboRaveMaze.svg', '/js/app/simulation/simBackgrounds/dummyBackground.svg'
     ];
     var imgListIE = ['/js/app/simulation/simBackgrounds/baustelle.png', '/js/app/simulation/simBackgrounds/ruler.png',
         '/js/app/simulation/simBackgrounds/wallPattern.png', '/js/app/simulation/simBackgrounds/calliopeBackground.png',
@@ -50,15 +50,23 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         '/js/app/simulation/simBackgrounds/drawBackground.png', '/js/app/simulation/simBackgrounds/robertaBackground.png',
         '/js/app/simulation/simBackgrounds/rescueBackground.png', '/js/app/simulation/simBackgrounds/wroBackground.png',
         '/js/app/simulation/simBackgrounds/mathBackground.png', '/js/app/simulation/simBackgrounds/roboraveBackground.png',
-        '/js/app/simulation/simBackgrounds/RoboRaveMaze.png'
+        '/js/app/simulation/simBackgrounds/RoboRaveMaze.png', '/js/app/simulation/simBackgrounds/dummyBackground.png'
     ];
+
+    var randomImageList = ['/js/app/simulation/simBackgrounds/random/1.svg', '/js/app/simulation/simBackgrounds/random/2.svg']
+    var randomImageListIE = ['/js/app/simulation/simBackgrounds/random/1.png', '/js/app/simulation/simBackgrounds/random/2.png']
+    var randomImageObjectList = []
+
+
     var imgObjectList = [];
     var RR_LineFollowing = 8;
     var RR_Maze = 9;
+    var RR_Random = 10;
 
     function preloadImages() {
         if (isIE()) {
             imgList = imgListIE;
+            randomImageList = randomImageListIE;
         }
         var i = 0;
         for (i = 0; i < imgList.length; i++) {
@@ -72,6 +80,12 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 imgObjectList[i - 3] = new Image();
                 imgObjectList[i - 3].src = imgList[i];
             }
+        }
+        for (i = 0; i < randomImageList.length; i++) {
+
+            randomImageObjectList[i] = new Image();
+            randomImageObjectList[i].src = randomImageList[i];
+
         }
         if (UTIL.isLocalStorageAvailable()) {
             var customBackground = localStorage.getItem("customBackground");
@@ -108,12 +122,20 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
 
     var currentBackground = RR_LineFollowing;
 
+    function getrandomObject() {
+        return randomImageObjectList[Math.floor(Math.random() * randomImageObjectList.length)];
+    }
+
     function setBackground(num, callback) {
         if (num == undefined) {
             setObstacle();
             setRuler();
             removeMouseEvents();
-            scene = new Scene(imgObjectList[currentBackground], robots, imgPattern, ruler);
+            if (currentBackground === RR_Random) {
+                scene = new Scene(getrandomObject(), robots, imgPattern, ruler);
+            } else {
+                scene = new Scene(imgObjectList[currentBackground], robots, imgPattern, ruler);
+            }
             scene.updateBackgrounds();
             scene.drawObjects();
             scene.drawRuler();
@@ -129,7 +151,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             if (currentBackground >= imgObjectList.length) {
                 currentBackground = 2;
             }
-            if (currentBackground == (imgObjectList.length - 1) && customBackgroundLoaded && UTIL.isLocalStorageAvailable()) {
+            if (currentBackground === (imgObjectList.length - 1) && customBackgroundLoaded && UTIL.isLocalStorageAvailable()) {
                 // update timestamp of custom background
                 localStorage.setItem("customBackground", JSON.stringify({
                     image: JSON.parse(localStorage.getItem("customBackground")).image,
@@ -613,13 +635,13 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             obstacle.w = 60;
             obstacle.h = 20;
             obstacle.color = "#F68712";
-        } else if (currentBackground == RR_Maze) {
+        } else if (currentBackground === RR_Maze) {
             obstacle.x = 700;
             obstacle.y = 100;
             obstacle.w = 5;
             obstacle.h = 450;
             obstacle.color = "#000000";
-            var MazeObstacleList = [{
+            var MazeObstacleList = [{ // add obstacles with lists like this
                 x: 500,
                 y: 100,
                 w: 200,
@@ -693,6 +715,12 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             for (i = 0; i < MazeObstacleList.length; i++) {
                 obslist.push(MazeObstacleList[i]);
             }
+        } else if (currentBackground === RR_Random) {
+            obstacle.x = 400;
+            obstacle.y = 200;
+            obstacle.w = 200;
+            obstacle.h = 200;
+            obstacle.color = "#920000";
         } else {
             var x = imgObjectList[currentBackground].width - 50;
             var y = imgObjectList[currentBackground].height - 50;
@@ -1037,7 +1065,11 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
     }
 
     function initScene() {
-        scene = new Scene(imgObjectList[currentBackground], robots, imgPattern, ruler);
+        if (currentBackground === RR_Random) {
+            scene = new Scene(getrandomObject(), robots, imgPattern, ruler);
+        } else {
+            scene = new Scene(imgObjectList[currentBackground], robots, imgPattern, ruler);
+        }
         scene.updateBackgrounds();
         scene.drawObjects();
         scene.drawRuler();
@@ -1292,6 +1324,21 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 transY: -cy
             }, configuration, num, robotBehaviour);
             robot.canDraw = false;
+        } else if (currentBackground == RR_Random) {
+            var cx = 720;
+            var cy = 490;
+            robot = new reqRobot({
+                x: cx,
+                y: cy + yOffset,
+                theta: -Math.PI / 2,
+                xOld: cx,
+                yOld: cy + yOffset,
+                transX: -cx,
+                transY: -cy
+            }, configuration, num, robotBehaviour);
+            robot.canDraw = true;
+            robot.drawColor = "#00ffff";
+            robot.drawWidth = 1;
         } else {
             var cx = imgObjectList[currentBackground].width / 2.0 + 10;
             var cy = imgObjectList[currentBackground].height / 2.0 + 10;
