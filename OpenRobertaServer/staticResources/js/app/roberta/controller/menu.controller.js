@@ -437,8 +437,18 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
         $('#head-navigation-upload').onWrap('click', '.dropdown-menu li:not(.disabled) a', function(event) {
             switch (event.target.id) {
             case 'menuSubmitSolution':
-				var link = "https://my.roborave.de/submitSolution.php?link="+ encodeURIComponent(PROGRAM_C.getLink());
-                window.open(link);
+				var form = document.createElement("form");
+				form.setAttribute("method", "post");
+				form.setAttribute("action", "https://my.roborave.de/submitSolution.php");
+				form.setAttribute("target", "view");
+				var hiddenField = document.createElement("input"); 
+				hiddenField.setAttribute("type", "hidden");
+				hiddenField.setAttribute("name", "link");
+				hiddenField.setAttribute("value", PROGRAM_C.getLink());
+				form.appendChild(hiddenField);
+				document.body.appendChild(form);
+				window.open('', 'view');
+				form.submit();
                 break;
             default:
                 break;
