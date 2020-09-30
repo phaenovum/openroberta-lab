@@ -445,7 +445,12 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
 				hiddenField.setAttribute("type", "hidden");
 				hiddenField.setAttribute("name", "link");
 				hiddenField.setAttribute("value", PROGRAM_C.getLink());
+				var hiddenField2 = document.createElement("input");
+				hiddenField2.setAttribute("type", "hidden");
+				hiddenField2.setAttribute("name", "account");
+				hiddenField2.setAttribute("value", GUISTATE_C.getUserAccountName());
 				form.appendChild(hiddenField);
+				form.appendChild(hiddenField2);
 				document.body.appendChild(form);
 				window.open('', 'view');
 				form.submit();
