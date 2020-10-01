@@ -50,7 +50,10 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
 			$("#loginAccountName").val(target[1]);
  			$('#loginPassword').val(target[2]);
 			USER_C.login();
-        } else if (target[0] === "#tutorial") {
+        }else if (target[0] === "#enableRegistration") {
+			$("#login_register_btn").prop('hidden', false); 
+        }
+		 else if (target[0] === "#tutorial") {
             GUISTATE_C.setStartWithoutPopup();
             $('#tabTutorialList').click();
         } else if (target[0] === "#loadSystem" && target.length >= 2) {

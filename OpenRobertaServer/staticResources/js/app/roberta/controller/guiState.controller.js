@@ -63,6 +63,7 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
 
     function setInitialState() {
         // User not logged in?
+        $('#head-navigation-upload').css('display', 'none');
         $('.nav > li > ul > .login').addClass('disabled');
         $('#head-navi-icon-user').addClass('error');
         // Toolbox?
@@ -1026,6 +1027,7 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
         $('.nav > li > ul > .login, .logout').removeClass('disabled');
         $('.nav > li > ul > .login.unavailable').addClass('disabled');
         $('.nav > li > ul > .logout').addClass('disabled');
+        $('#head-navigation-upload').css('display', 'inline');
         $('#head-navi-icon-user').removeClass('error');
         $('#head-navi-icon-user').addClass('ok');
         $('#menuSaveProg').parent().addClass('disabled');
@@ -1064,6 +1066,7 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
         setProgramAuthorName(null);
         setProgramShareRelation(null);
         GUISTATE.program.shared = false;
+        $('#head-navigation-upload').css('display', 'none');
         $('.nav > li > ul > .logout, .login').removeClass('disabled');
         $('.nav > li > ul > .login').addClass('disabled');
         $('#head-navi-icon-user').removeClass('ok');
