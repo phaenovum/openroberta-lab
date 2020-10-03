@@ -284,6 +284,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             if (robots[i].time) {
                 robots[i].time = 0;
             }
+            // EDIT:
+            robots[i].resetGoal();
         }
     }
 
@@ -330,8 +332,50 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         hOld: 0,
         isParallelToAxis: true
     };
+
+
     var obslist = [ground, obstacle];
     exports.obstacleList = obslist;
+
+    // EDIT:
+    var goal = null;
+    /*{
+        x: 0,
+        y: 0,
+        w: 100,
+        h: 100,
+        color: "#FFFFFF",
+        time: 0,
+        reached: false
+    };*/
+
+    exports.goal = goal;
+
+    var switches = null;
+    /*[
+        {
+            pressed: false, // default value
+            x: 100,
+            y: 100,
+            w: 100,
+            h: 100,
+            colorPressed: "#00ff00",
+            colorReleased: "#FF0000",
+            obstacle: switchableObstacle,
+            onPress: function (sim, robot, swt) {
+                console.log("switch pressed");
+                if(sim.obstacleList.includes(swt.obstacle)) {
+                    sim.obstacleList.splice( $.inArray(swt.obstacle, sim.obstacleList), 1 );
+                }
+            },
+            onRelease: function (sim, robot, swt) {
+                console.log("switch released");
+                sim.obstacleList.push(swt.obstacle);
+            }
+        }
+    ];*/
+
+    exports.switches = switches;
 
     var hoverindex = 0;
     exports.hoverindex = hoverindex;
@@ -417,6 +461,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 for (var i = 0; i < numRobots; i++) {
                     robots[i].reset();
                     robots[i].resetPose();
+                    // EDIT:
+                    robots[i].resetGoal();
                     readyRobots.push(false);
                     isDownRobots.push(false);
                 }
@@ -571,6 +617,11 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
     }
 
     function setObstacle() {
+
+        // remove old values
+        exports.goal = null;
+        exports.switches = null;
+
         for (var i = obslist.length; i > 2; i--) {
             obslist.pop();
         }
@@ -582,12 +633,46 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             obstacle.img = null;
             obstacle.color = "#33B8CA";
         } else if (currentBackground == 2) {
-            obstacle.x = 580;
-            obstacle.y = 290;
-            obstacle.w = 100;
-            obstacle.h = 100;
+            obstacle.x = 0;
+            obstacle.y = 0;
+            obstacle.w = 0;
+            obstacle.h = 0;
             obstacle.img = null;
-            obstacle.color = "#33B8CA";
+            obstacle.color = null;
+
+            const obs = {
+                x: 10,
+                y: 10,
+                w: 50,
+                h: 50,
+                isParallelToAxis: true,
+                color: "#33B8CA"
+            };
+
+            obslist.push(obs);
+
+            exports.switches = [
+                {
+                    pressed: false, // default value
+                    x: 100,
+                    y: 100,
+                    w: 100,
+                    h: 100,
+                    colorPressed: "#00ff00",
+                    colorReleased: "#FF0000",
+                    obstacle: obs,
+                    onPress: function (sim, robot, swt) {
+                        console.log("switch pressed");
+                        if(sim.obstacleList.includes(swt.obstacle)) {
+                            sim.obstacleList.splice( $.inArray(swt.obstacle, sim.obstacleList), 1 );
+                        }
+                    },
+                    onRelease: function (sim, robot, swt) {
+                        console.log("switch released");
+                        sim.obstacleList.push(swt.obstacle);
+                    }
+                }
+            ];
         } else if (currentBackground == 4) {
             obstacle.x = 500;
             obstacle.y = 260;
@@ -630,11 +715,22 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             obstacle.color = "#009EE3";
             obstacle.img = null;
         } else if (currentBackground == RR_LineFollowing) {
-            obstacle.x = 734;
-            obstacle.y = 62;
-            obstacle.w = 60;
-            obstacle.h = 20;
-            obstacle.color = "#F68712";
+            obstacle.x = 0;
+            obstacle.y = 0;
+            obstacle.w = 0;
+            obstacle.h = 0;
+            obstacle.color = null;
+            obstacle.img = null;
+
+            exports.goal = {
+                x: 734,
+                y: 62,
+                w: 60,
+                h: 20,
+                color: "#F68712",
+                time: 0,
+                reached: false
+            };
         } else if (currentBackground === RR_Maze) {
             obstacle.x = 700;
             obstacle.y = 100;
@@ -722,13 +818,11 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             obstacle.h = 200;
             obstacle.color = "#920000";
         } else {
-            var x = imgObjectList[currentBackground].width - 50;
-            var y = imgObjectList[currentBackground].height - 50;
-            obstacle.x = x;
-            obstacle.y = y;
-            obstacle.w = 50;
-            obstacle.h = 50;
-            obstacle.color = "#33B8CA";
+            obstacle.x = 0;
+            obstacle.y = 0;
+            obstacle.w = 0;
+            obstacle.h = 0;
+            obstacle.color = null;
             obstacle.img = null;
         }
 
