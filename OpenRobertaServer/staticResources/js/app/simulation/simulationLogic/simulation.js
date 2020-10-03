@@ -286,6 +286,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             }
             // EDIT:
             robots[i].resetGoal();
+            // TODO: reset goal time
         }
     }
 
@@ -440,6 +441,12 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 $('#simButtonsHead').show();
             }
         }
+
+        // we do not allow picture uploads because users should not edit the provided maps
+        // therefore this button has been disabled
+        // Note: in theory a user with javascript knowledge could use this anyway
+        $('#simImport').hide();
+
         interpreters = programs.map(function (x) {
             var src = JSON.parse(x.javaScriptProgram);
             configurations.push(x.javaScriptConfiguration);
