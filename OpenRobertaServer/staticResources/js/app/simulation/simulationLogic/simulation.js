@@ -339,7 +339,10 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
     exports.obstacleList = obslist;
 
     // EDIT:
-    var goal = null;
+    var goal = {
+        time: 0,
+        reached: false
+    };
     /*{
         x: 0,
         y: 0,

@@ -939,7 +939,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
         }
 
         // EDIT:
-        if(running && !SIM.goal.reached) {
+        if(running && SIM.goal && !SIM.goal.reached) {
             SIM.goal.time += SIM.getDt();
         }
 
