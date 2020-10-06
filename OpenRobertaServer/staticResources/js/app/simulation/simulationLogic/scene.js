@@ -69,6 +69,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             top: top + 'px',
             left: left + 'px',
         });
+        ctx.clearRect(0, 0, C.MAX_WIDTH, C.MAX_HEIGHT);
         ctx.restore();
         ctx.save();
         ctx.scale(sc, sc);
@@ -85,6 +86,32 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             }
             ctx.drawImage(this.backgroundImg, 10, 10, this.backgroundImg.width, this.backgroundImg.height);
         }
+
+        // EDIT: Draw goal
+        if(SIM.goal) {
+            if (SIM.goal.img) {
+                SIM.goal.drawImage(SIM.goal.img, SIM.goal.x, SIM.goal.y, SIM.goal.w, SIM.goal.h);
+            } else if(SIM.goal.color) {
+                ctx.fillStyle = SIM.goal.color;
+                //ctx.shadowBlur = 5;
+                //ctx.shadowColor = "black";
+                ctx.fillRect(SIM.goal.x, SIM.goal.y, SIM.goal.w, SIM.goal.h);
+            }
+        }
+
+        if(SIM.switches) {
+            for (let i = 0; i < SIM.switches.length; i++) {
+                let s = SIM.switches[i];
+                if (s.imgReleased && s.imgPressed) {
+                    const image = s.pressed ? s.imgPressed : s.imgReleased;
+                    SIM.goal.drawImage(image, s.x, s.y, s.w, s.h);
+                } else if (s.colorReleased && s.colorPressed) {
+                    ctx.fillStyle = s.pressed ? s.colorPressed : s.colorReleased;
+                    ctx.fillRect(s.x, s.y, s.w, s.h);
+                }
+            }
+        }
+
     };
 
     Scene.prototype.drawRuler = function() {
@@ -102,23 +129,29 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
     };
 
     Scene.prototype.drawObjects = function () {
+
+        // clear full object graphics context
+        this.oCtx.clearRect(0, 0, C.MAX_WIDTH, C.MAX_HEIGHT);
+        this.oCtx.restore();
+        this.oCtx.save();
+        this.oCtx.scale(SIM.getScale(), SIM.getScale());
+
         var obslist = SIM.obstacleList;
         for (var i = 1; i < obslist.length; i++) {
-            var paddingrect = 11;
-            this.oCtx.clearRect(obslist[i].xOld - paddingrect, obslist[i].yOld - paddingrect, obslist[i].wOld + 2 * paddingrect, obslist[i].hOld + 2 * paddingrect);
-            obslist[i].xOld = obslist[i].x;
-            obslist[i].yOld = obslist[i].y;
-            obslist[i].wOld = obslist[i].w;
-            obslist[i].hOld = obslist[i].h;
-            this.oCtx.restore();
-            this.oCtx.save();
-            this.oCtx.scale(SIM.getScale(), SIM.getScale());
+            //var paddingrect = 0;
+            //this.oCtx.clearRect(obslist[i].xOld - paddingrect, obslist[i].yOld - paddingrect, obslist[i].wOld + 2 * paddingrect, obslist[i].hOld + 2 * paddingrect);
+            //obslist[i].xOld = obslist[i].x;
+            //obslist[i].yOld = obslist[i].y;
+            //obslist[i].wOld = obslist[i].w;
+            //obslist[i].hOld = obslist[i].h;
+
             if (obslist[i].img) {
                 this.oCtx.drawImage(obslist[i].img, obslist[i].x, obslist[i].y, obslist[i].w, obslist[i].h);
             } else if (obslist[i].color) {
                 this.oCtx.fillStyle = obslist[i].color;
-                this.oCtx.shadowBlur = 5;
-                this.oCtx.shadowColor = "black";
+                // disable shadows to make it look better
+                //this.oCtx.shadowBlur = 5;
+                //this.oCtx.shadowColor = "black";
                 this.oCtx.fillRect(obslist[i].x, obslist[i].y, obslist[i].w, obslist[i].h);
             }
         }
@@ -185,6 +218,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             this.drawMbed();
             return;
         }
+
         this.rCtx.clearRect(0, 0, C.MAX_WIDTH, C.MAX_HEIGHT);
         for (var r = 0; r < this.numprogs; r++) {
             this.rCtx.restore();
@@ -213,6 +247,18 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 $("#notConstantValue").append('<div><label>Robot θ</label><span>' + UTIL.round(SIMATH.toDegree(this.robots[r].pose.theta), 0) + '°</span></div>');
                 $("#notConstantValue").append('<div><label>Motor left</label><span>' + UTIL.round(this.robots[r].encoder.left * C.ENC, 0) + '°</span></div>');
                 $("#notConstantValue").append('<div><label>Motor right</label><span>' + UTIL.round(this.robots[r].encoder.right * C.ENC, 0) + '°</span></div>');
+
+                // EDIT:
+                if(SIM.goal) {
+                    $("#notConstantValue").append('<div><label>Robot ' + r + ': goal</label><span>' + (this.robots[r].goal ? 'true' : 'false') + '</span></div>');
+                    $("#notConstantValue").append('<div><label>Robot ' + r + ': time</label><span>' + UTIL.round(this.robots[r].goalTime, 3) + 's</span></div>');
+                }
+
+                if(SIM.goal && r == 0) {
+                    $("#notConstantValue").append('<div><label>Goal reached</label><span>' + (SIM.goal.reached ? 'true' : 'false') + '</span></div>');
+                    $("#notConstantValue").append('<div><label>Goal time</label><span>' + UTIL.round(SIM.goal.time, 3) + 's</span></div>');
+                }
+
                 if (Array.isArray(this.robots[r].touchSensor)) {
                     for (var s in this.robots[r].touchSensor) {
                         $("#notConstantValue").append('<div><label>Touch Sensor ' + s + '</label><span>' + UTIL.round(this.robots[r].touchSensor[s].value, 0) + '</span></div>');
@@ -672,6 +718,46 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 }
             }
 
+            // EDIT:
+            function isInsideGoal(x, y, point, rect) {
+                return point.rx >= rect.x && point.rx <= (rect.x + rect.w) && point.ry >= rect.y && point.ry <= (rect.y + rect.h)
+            }
+
+            if(SIM.goal) {
+                //this.robots[r].goal = false;
+                this.robots[r].goal |= isInsideGoal(x, y, this.robots[r].frontLeft, SIM.goal);
+                this.robots[r].goal |= isInsideGoal(x, y, this.robots[r].frontRight, SIM.goal);
+                this.robots[r].goal |= isInsideGoal(x, y, this.robots[r].backLeft, SIM.goal);
+                this.robots[r].goal |= isInsideGoal(x, y, this.robots[r].backRight, SIM.goal);
+                SIM.goal.reached |= this.robots[r].goal;
+                if(running && !this.robots[r].goal) {
+                    this.robots[r].goalTime += SIM.getDt();
+                }
+            }
+
+            if(SIM.switches) {
+                for (let i = 0; i < SIM.switches.length; i++) {
+                    let s = SIM.switches[i];
+                    var inside = false;
+                    inside |= isInsideGoal(x, y, this.robots[r].frontLeft, s);
+                    inside |= isInsideGoal(x, y, this.robots[r].frontRight, s);
+                    inside |= isInsideGoal(x, y, this.robots[r].backLeft, s);
+                    inside |= isInsideGoal(x, y, this.robots[r].backRight, s);
+                    if(s.pressed != inside) {
+                        // store state for events
+                        s.pressed = inside;
+                        if(inside) {
+                            s.onPress(SIM, this.robots[r], s);
+                        } else {
+                            s.onRelease(SIM, this.robots[r], s);
+                        }
+                        this.drawBackground();
+                        this.drawObjects();
+                    }
+                    s.pressed = inside;
+                }
+            }
+
             if (this.robots[r].ultraSensor) {
                 var ultraSensors = this.robots[r].ultraSensor;
                 values.ultrasonic = {};
@@ -851,6 +937,12 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             }
             values.frameTime = SIM.getDt();
         }
+
+        // EDIT:
+        if(running && SIM.goal && !SIM.goal.reached) {
+            SIM.goal.time += SIM.getDt();
+        }
+
     };
 
     function getFnName(fn) {

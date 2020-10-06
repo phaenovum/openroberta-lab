@@ -31,6 +31,9 @@ define([ 'simulation.simulation', 'simulation.constants' ], function(SIM, CONSTA
         this.timer = {};
         this.debug = false;
 
+        // init goal variables
+        this.resetGoal();
+
         var webAudio = SIM.getWebAudio();
 
         this.webAudio = {
@@ -39,6 +42,11 @@ define([ 'simulation.simulation', 'simulation.constants' ], function(SIM, CONSTA
             gainNode : webAudio.gainNode,
             volume : 0.5,
         }
+    }
+
+    Robot.prototype.resetGoal = function() {
+        this.goalTime = 0;
+        this.goal = false;
     }
 
     Robot.prototype.replaceState = function(robotBehaviour) {

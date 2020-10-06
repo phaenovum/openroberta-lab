@@ -8,30 +8,30 @@
  */
 
 define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 'simulation.constants', 'util', 'program.controller',
-        'interpreter.interpreter', 'interpreter.robotSimBehaviour', 'volume-meter', 'simulation.constants', 'message', 'jquery'
-    ], function (exports, Scene, SIMATH, ROBERTA_PROGRAM, CONST, UTIL, PROGRAM_C,
-                 SIM_I, MBED_R, Volume, C, MSG, $) {
+    'interpreter.interpreter', 'interpreter.robotSimBehaviour', 'volume-meter', 'simulation.constants', 'message', 'jquery'
+], function (exports, Scene, SIMATH, ROBERTA_PROGRAM, CONST, UTIL, PROGRAM_C,
+             SIM_I, MBED_R, Volume, C, MSG, $) {
 
-        var interpreters;
-        var scene;
-        var userPrograms;
-        var configurations = [];
-        var canvasOffset;
-        var offsetX;
-        var offsetY;
-        var isDownRobots = [];
-        var isDownObstacle = false;
-        var isDownRuler = false;
-        var startX;
-        var startY;
-        var scale = 1;
-        var timerStep = 0;
-        var canceled;
-        var storedPrograms;
-        var customBackgroundLoaded = false;
-        var debugMode = false;
-        var breakpoints = [];
-        var observers = {};
+    var interpreters;
+    var scene;
+    var userPrograms;
+    var configurations = [];
+    var canvasOffset;
+    var offsetX;
+    var offsetY;
+    var isDownRobots = [];
+    var isDownObstacle = false;
+    var isDownRuler = false;
+    var startX;
+    var startY;
+    var scale = 1;
+    var timerStep = 0;
+    var canceled;
+    var storedPrograms;
+    var customBackgroundLoaded = false;
+    var debugMode = false;
+    var breakpoints = [];
+    var observers = {};
 
         var imgObstacle1 = new Image();
         var imgPattern = new Image();
@@ -97,37 +97,37 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             if (UTIL.isLocalStorageAvailable()) {
                 var customBackground = localStorage.getItem("customBackground");
 
-                if (customBackground) {
-                    // TODO backwards compatibility for non timestamped background images; can be removed after some time
-                    try {
-                        JSON.parse(customBackground);
-                    } catch (e) {
-                        localStorage.setItem("customBackground", JSON.stringify({
-                            image: customBackground,
-                            timestamp: new Date().getTime()
-                        }));
-                        customBackground = localStorage.getItem("customBackground");
-                    }
+            if (customBackground) {
+                // TODO backwards compatibility for non timestamped background images; can be removed after some time
+                try {
+                    JSON.parse(customBackground);
+                } catch (e) {
+                    localStorage.setItem("customBackground", JSON.stringify({
+                        image: customBackground,
+                        timestamp: new Date().getTime()
+                    }));
+                    customBackground = localStorage.getItem("customBackground");
+                }
 
-                    customBackground = JSON.parse(customBackground);
-                    // remove images older than 30 days
-                    var currentTimestamp = new Date().getTime();
-                    if (currentTimestamp - customBackground.timestamp > 63 * 24 * 60 * 60 * 1000) {
-                        localStorage.removeItem('customBackground');
-                    } else {
-                        // add image to backgrounds if recent
-                        var dataImage = customBackground.image;
-                        imgObjectList[i - 3] = new Image();
-                        imgObjectList[i - 3].src = "data:image/png;base64," + dataImage;
-                        customBackgroundLoaded = true;
-                    }
+                customBackground = JSON.parse(customBackground);
+                // remove images older than 30 days
+                var currentTimestamp = new Date().getTime();
+                if (currentTimestamp - customBackground.timestamp > 63 * 24 * 60 * 60 * 1000) {
+                    localStorage.removeItem('customBackground');
+                } else {
+                    // add image to backgrounds if recent
+                    var dataImage = customBackground.image;
+                    imgObjectList[i - 3] = new Image();
+                    imgObjectList[i - 3].src = "data:image/png;base64," + dataImage;
+                    customBackgroundLoaded = true;
                 }
             }
         }
+    }
 
-        preloadImages();
+    preloadImages();
 
-        var currentBackground = RR_LineFollowing;
+    var currentBackground = RR_LineFollowing;
 
         function getrandomObject() {
             return randomImageObjectList[currentBackground][Math.floor(Math.random() * randomImageObjectList[currentBackground].length)];
@@ -178,124 +178,124 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 }
                 callback();
 
-            });
+        });
+    }
+
+    exports.setBackground = setBackground;
+
+    function getBackground() {
+        return currentBackground;
+    }
+
+    exports.getBackground = getBackground;
+
+    function initMicrophone(robot) {
+        if (navigator.mediaDevices === undefined) {
+            navigator.mediaDevices = {};
         }
+        navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-        exports.setBackground = setBackground;
-
-        function getBackground() {
-            return currentBackground;
-        }
-
-        exports.getBackground = getBackground;
-
-        function initMicrophone(robot) {
-            if (navigator.mediaDevices === undefined) {
-                navigator.mediaDevices = {};
-            }
-            navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-            try {
-                // ask for an audio input
-                navigator.mediaDevices.getUserMedia({
-                    "audio": {
-                        "mandatory": {
-                            "googEchoCancellation": "false",
-                            "googAutoGainControl": "false",
-                            "googNoiseSuppression": "false",
-                            "googHighpassFilter": "false"
-                        },
-                        "optional": []
+        try {
+            // ask for an audio input
+            navigator.mediaDevices.getUserMedia({
+                "audio": {
+                    "mandatory": {
+                        "googEchoCancellation": "false",
+                        "googAutoGainControl": "false",
+                        "googNoiseSuppression": "false",
+                        "googHighpassFilter": "false"
                     },
-                }).then(function (stream) {
-                    var mediaStreamSource = robot.webAudio.context.createMediaStreamSource(stream);
-                    robot.sound = Volume.createAudioMeter(robot.webAudio.context);
-                    mediaStreamSource.connect(robot.sound);
-                }, function () {
-                    console.log("Sorry, but there is no microphone available on your system");
-                });
-            } catch (e) {
+                    "optional": []
+                },
+            }).then(function (stream) {
+                var mediaStreamSource = robot.webAudio.context.createMediaStreamSource(stream);
+                robot.sound = Volume.createAudioMeter(robot.webAudio.context);
+                mediaStreamSource.connect(robot.sound);
+            }, function () {
                 console.log("Sorry, but there is no microphone available on your system");
-            }
+            });
+        } catch (e) {
+            console.log("Sorry, but there is no microphone available on your system");
         }
+    }
 
-        exports.initMicrophone = initMicrophone;
+    exports.initMicrophone = initMicrophone;
 
-        var time;
-        var renderTime = 5; // approx. time in ms only for the first rendering
+    var time;
+    var renderTime = 5; // approx. time in ms only for the first rendering
 
-        var dt = 0;
+    var dt = 0;
 
-        function getDt() {
-            return dt;
-        }
+    function getDt() {
+        return dt;
+    }
 
-        exports.getDt = getDt;
+    exports.getDt = getDt;
 
-        var pause = false;
+    var pause = false;
 
-        function setPause(value) {
-            if (!value && readyRobots.indexOf(false) > -1) {
-                setTimeout(function () {
-                    setPause(false);
-                }, 100);
+    function setPause(value) {
+        if (!value && readyRobots.indexOf(false) > -1) {
+            setTimeout(function () {
+                setPause(false);
+            }, 100);
+        } else {
+            if (value && !debugMode) {
+                $('#simControl').addClass('typcn-media-play-outline').removeClass('typcn-media-stop');
+                $('#simControl').attr('data-original-title', Blockly.Msg.MENU_SIM_START_TOOLTIP);
             } else {
-                if (value && !debugMode) {
-                    $('#simControl').addClass('typcn-media-play-outline').removeClass('typcn-media-stop');
-                    $('#simControl').attr('data-original-title', Blockly.Msg.MENU_SIM_START_TOOLTIP);
-                } else {
-                    $('#simControl').addClass('typcn-media-stop').removeClass('typcn-media-play-outline');
-                    $('#simControl').attr('data-original-title', Blockly.Msg.MENU_SIM_STOP_TOOLTIP);
-                }
-                pause = value;
+                $('#simControl').addClass('typcn-media-stop').removeClass('typcn-media-play-outline');
+                $('#simControl').attr('data-original-title', Blockly.Msg.MENU_SIM_STOP_TOOLTIP);
             }
-            for (var i = 0; i < robots.length; i++) {
-                if (robots[i].left) {
-                    robots[i].left = 0;
-                }
-                if (robots[i].right) {
-                    robots[i].right = 0;
-                }
+            pause = value;
+        }
+        for (var i = 0; i < robots.length; i++) {
+            if (robots[i].left) {
+                robots[i].left = 0;
+            }
+            if (robots[i].right) {
+                robots[i].right = 0;
             }
         }
+    }
 
-        exports.setPause = setPause;
+    exports.setPause = setPause;
 
-        var stepCounter;
-        var runRenderUntil;
+    var stepCounter;
+    var runRenderUntil;
 
-        function setStep() {
-            stepCounter = -50;
-            setPause(false);
+    function setStep() {
+        stepCounter = -50;
+        setPause(false);
+    }
+
+    exports.setStep = setStep;
+
+    var info;
+
+    function setInfo() {
+        if (info === true) {
+            info = false;
+        } else {
+            info = true;
         }
+    }
 
-        exports.setStep = setStep;
+    exports.setInfo = setInfo;
 
-        var info;
-
-        function setInfo() {
-            if (info === true) {
-                info = false;
-            } else {
-                info = true;
+    function resetPose() {
+        for (var i = 0; i < numRobots; i++) {
+            if (robots[i].resetPose) {
+                robots[i].resetPose();
             }
-        }
-
-        exports.setInfo = setInfo;
-
-        function resetPose() {
-            for (var i = 0; i < numRobots; i++) {
-                if (robots[i].resetPose) {
-                    robots[i].resetPose();
-                }
-                if (robots[i].time) {
-                    robots[i].time = 0;
-                }
-                // EDIT:
-                robots[i].resetGoal();
-                // TODO: reset goal time
+            if (robots[i].time) {
+                robots[i].time = 0;
             }
+            // EDIT:
+            robots[i].resetGoal();
+            // TODO: reset goal time
         }
+    }
 
         exports.resetPose = resetPose;
 
@@ -344,52 +344,51 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
 
         var obslist = [ground, obstacle];
         exports.obstacleList = obslist;
+    // EDIT:
+    var goal = {
+        time: 0,
+        reached: false
+    };
+    /*{
+        x: 0,
+        y: 0,
+        w: 100,
+        h: 100,
+        color: "#FFFFFF",
+        time: 0,
+        reached: false
+    };*/
 
-        // EDIT:
-        var goal = {
-            time: 0,
-            reached: false
-        };
-        /*{
-            x: 0,
-            y: 0,
+    exports.goal = goal;
+
+    var switches = null;
+    /*[
+        {
+            pressed: false, // default value
+            x: 100,
+            y: 100,
             w: 100,
             h: 100,
-            color: "#FFFFFF",
-            time: 0,
-            reached: false
-        };*/
-
-        exports.goal = goal;
-
-        var switches = null;
-        /*[
-            {
-                pressed: false, // default value
-                x: 100,
-                y: 100,
-                w: 100,
-                h: 100,
-                colorPressed: "#00ff00",
-                colorReleased: "#FF0000",
-                obstacle: switchableObstacle,
-                onPress: function (sim, robot, swt) {
-                    console.log("switch pressed");
-                    if(sim.obstacleList.includes(swt.obstacle)) {
-                        sim.obstacleList.splice( $.inArray(swt.obstacle, sim.obstacleList), 1 );
-                    }
-                },
-                onRelease: function (sim, robot, swt) {
-                    console.log("switch released");
-                    sim.obstacleList.push(swt.obstacle);
+            colorPressed: "#00ff00",
+            colorReleased: "#FF0000",
+            obstacle: switchableObstacle,
+            onPress: function (sim, robot, swt) {
+                console.log("switch pressed");
+                if(sim.obstacleList.includes(swt.obstacle)) {
+                    sim.obstacleList.splice( $.inArray(swt.obstacle, sim.obstacleList), 1 );
                 }
+            },
+            onRelease: function (sim, robot, swt) {
+                console.log("switch released");
+                sim.obstacleList.push(swt.obstacle);
             }
-        ];*/
+        }
+    ];*/
 
-        exports.switches = switches;
+    exports.switches = switches;
 
-        var hoverindex = 0;
-        exports.hoverindex = hoverindex;
+    var hoverindex = 0;
+    exports.hoverindex = hoverindex;
 
         var ruler = {
             x: 0,
@@ -419,80 +418,80 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             console.log("END of Sim");
         }
 
-        function init(programs, refresh, robotType) {
-            mouseOnRobotIndex = -1;
-            storedPrograms = programs;
-            numRobots = programs.length;
-            reset = false;
-            simRobotType = robotType;
-            userPrograms = programs;
-            runRenderUntil = [];
-            configurations = [];
-            for (i = 0; i < programs.length; i++) {
-                runRenderUntil[i] = 0;
+    function init(programs, refresh, robotType) {
+        mouseOnRobotIndex = -1;
+        storedPrograms = programs;
+        numRobots = programs.length;
+        reset = false;
+        simRobotType = robotType;
+        userPrograms = programs;
+        runRenderUntil = [];
+        configurations = [];
+        for (i = 0; i < programs.length; i++) {
+            runRenderUntil[i] = 0;
+        }
+        if (robotType.indexOf("calliope") >= 0) {
+            currentBackground = 0;
+            $('.dropdown.sim, .simScene, #simImport, #simResetPose, #simButtonsHead').hide();
+        } else if (robotType === 'microbit') {
+            $('.dropdown.sim, .simScene, #simImport, #simResetPose, #simButtonsHead').hide();
+            currentBackground = 1;
+        } else if (currentBackground === 0 || currentBackground === 1) {
+            currentBackground = 2;
+        }
+        if (currentBackground > 1) {
+            if (isIE() || isEdge()) { // TODO IE and Edge: Input event not firing for file type of input
+                $('.dropdown.sim, .simScene').show();
+                $('#simImport').hide();
+            } else {
+                $('.dropdown.sim, .simScene, #simImport, #simResetPose').show();
             }
-            if (robotType.indexOf("calliope") >= 0) {
-                currentBackground = 0;
-                $('.dropdown.sim, .simScene, #simImport, #simResetPose, #simButtonsHead').hide();
-            } else if (robotType === 'microbit') {
-                $('.dropdown.sim, .simScene, #simImport, #simResetPose, #simButtonsHead').hide();
-                currentBackground = 1;
-            } else if (currentBackground === 0 || currentBackground === 1) {
-                currentBackground = 2;
+            if ($('#device-size').find('div:visible').first().attr('id')) {
+                $('#simButtonsHead').show();
             }
-            if (currentBackground > 1) {
-                if (isIE() || isEdge()) { // TODO IE and Edge: Input event not firing for file type of input
-                    $('.dropdown.sim, .simScene').show();
-                    $('#simImport').hide();
-                } else {
-                    $('.dropdown.sim, .simScene, #simImport, #simResetPose').show();
-                }
-                if ($('#device-size').find('div:visible').first().attr('id')) {
-                    $('#simButtonsHead').show();
-                }
-            }
+        }
 
-            // we do not allow picture uploads because users should not edit the provided maps
-            // therefore this button has been disabled
-            // Note: in theory a user with javascript knowledge could use this anyway
-            $('#simImport').hide();
+        // we do not allow picture uploads because users should not edit the provided maps
+        // therefore this button has been disabled
+        // Note: in theory a user with javascript knowledge could use this anyway
+        $('#simImport').hide();
 
-            interpreters = programs.map(function (x) {
-                var src = JSON.parse(x.javaScriptProgram);
-                configurations.push(x.javaScriptConfiguration);
-                return new SIM_I.Interpreter(src, new MBED_R.RobotMbedBehaviour(), callbackOnTermination, breakpoints);
-            });
-            updateDebugMode(debugMode);
+        interpreters = programs.map(function (x) {
+            var src = JSON.parse(x.javaScriptProgram);
+            configurations.push(x.javaScriptConfiguration);
+            return new SIM_I.Interpreter(src, new MBED_R.RobotMbedBehaviour(), callbackOnTermination, breakpoints);
+        });
+        updateDebugMode(debugMode);
 
+        isDownRobots = [];
+        for (var i = 0; i < numRobots; i++) {
+            isDownRobots.push(false);
+        }
+        if (refresh) {
+            robotIndex = 0;
+            robots = [];
+            readyRobots = [];
             isDownRobots = [];
-            for (var i = 0; i < numRobots; i++) {
-                isDownRobots.push(false);
-            }
-            if (refresh) {
-                robotIndex = 0;
-                robots = [];
-                readyRobots = [];
-                isDownRobots = [];
-                require(['simulation.robot.' + simRobotType], function (reqRobot) {
-                    createRobots(reqRobot, numRobots);
-                    for (var i = 0; i < numRobots; i++) {
-                        robots[i].reset();
-                        robots[i].resetPose();
-                        // EDIT:
-                        robots[i].resetGoal();
-                        readyRobots.push(false);
-                        isDownRobots.push(false);
-                    }
-                    removeMouseEvents();
-                    canceled = false;
-                    isDownObstacle = false;
-                    isDownRuler = false;
-                    stepCounter = 0;
-                    pause = true;
-                    info = false;
-                    setObstacle();
-                    setRuler();
-                    initScene();
+            require(['simulation.robot.' + simRobotType], function (reqRobot) {
+                createRobots(reqRobot, numRobots);
+                for (var i = 0; i < numRobots; i++) {
+                    robots[i].reset();
+                    robots[i].resetPose();
+                    // EDIT:
+                    robots[i].resetGoal();
+                    readyRobots.push(false);
+                    isDownRobots.push(false);
+                }
+                removeMouseEvents();
+                canceled = false;
+                isDownObstacle = false;
+                isDownRuler = false;
+                stepCounter = 0;
+                pause = true;
+                info = false;
+                setObstacle();
+                setRuler();
+                initScene();
 
                 });
 
