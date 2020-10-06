@@ -42,6 +42,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         '/js/app/simulation/simBackgrounds/drawBackground.svg', '/js/app/simulation/simBackgrounds/robertaBackground.svg',
         '/js/app/simulation/simBackgrounds/rescueBackground.svg', '/js/app/simulation/simBackgrounds/wroBackground.svg',
         '/js/app/simulation/simBackgrounds/mathBackground.svg', '/js/app/simulation/simBackgrounds/roboraveBackground.svg',
+        '/js/app/simulation/simBackgrounds/RoboRaveMaze.svg','/js/app/simulation/simBackgrounds/RoboRaveMaze.svg',
         '/js/app/simulation/simBackgrounds/RoboRaveMaze.svg', '/js/app/simulation/simBackgrounds/dummyBackground.svg'
     ];
     var imgListIE = ['/js/app/simulation/simBackgrounds/baustelle.png', '/js/app/simulation/simBackgrounds/ruler.png',
@@ -60,8 +61,10 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
 
     var imgObjectList = [];
     var RR_LineFollowing = 8;
-    var RR_Maze = 9;
-    var RR_Random = 10;
+    var RR_Maze_ES = 9;
+    var RR_Maze_MS = 10;
+    var RR_Maze_HS = 11;
+    var RR_Random = 12;
 
     function preloadImages() {
         if (isIE()) {
@@ -725,23 +728,23 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             obstacle.color = "#009EE3";
             obstacle.img = null;
         } else if (currentBackground == RR_LineFollowing) {
-            obstacle.x = 0;
-            obstacle.y = 0;
-            obstacle.w = 0;
-            obstacle.h = 0;
-            obstacle.color = null;
+            obstacle.x = 734;
+            obstacle.y = 62;
+            obstacle.w = 60;
+            obstacle.h = 20;
+            obstacle.color = "#F68712";
             obstacle.img = null;
 
             exports.goal = {
-                x: 734,
-                y: 62,
+                x: 40,
+                y: 460,
                 w: 60,
                 h: 20,
                 color: "#F68712",
                 time: 0,
                 reached: false
             };
-        } else if (currentBackground === RR_Maze) {
+        } else if (currentBackground === RR_Maze_ES) {
             obstacle.x = 700;
             obstacle.y = 100;
             obstacle.w = 5;
@@ -795,7 +798,195 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 w: 200,
                 h: 50,
                 isParallelToAxis: true,
-                color: "#222222"
+                color: "#111111"
+            }, {
+                x: 200,
+                y: 0,
+                w: 5,
+                h: 350,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 100,
+                y: 450,
+                w: 200,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 100,
+                y: 100,
+                w: 5,
+                h: 350,
+                isParallelToAxis: true,
+                color: "#000000"
+            }];
+            for (i = 0; i < MazeObstacleList.length; i++) {
+                obslist.push(MazeObstacleList[i]);
+            }
+        } else if (currentBackground === RR_Maze_MS) {
+            obstacle.x = 700;
+            obstacle.y = 100;
+            obstacle.w = 5;
+            obstacle.h = 450;
+            obstacle.color = "#000000";
+            var MazeObstacleList = [{ // add obstacles with lists like this
+                x: 500,
+                y: 100,
+                w: 200,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 400,
+                y: 0,
+                w: 5,
+                h: 200,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 400,
+                y: 200,
+                w: 200,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 600,
+                y: 200,
+                w: 5,
+                h: 250,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 400,
+                y: 450,
+                w: 200,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 300,
+                y: 100,
+                w: 5,
+                h: 450,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 300,
+                y: 300,
+                w: 200,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 400,
+                y: 300,
+                w: 100,
+                h: 50,
+                isParallelToAxis: true,
+                color: "#111111"
+            }, {
+                x: 200,
+                y: 0,
+                w: 5,
+                h: 350,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 100,
+                y: 450,
+                w: 200,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 100,
+                y: 100,
+                w: 5,
+                h: 350,
+                isParallelToAxis: true,
+                color: "#000000"
+            }];
+            for (i = 0; i < MazeObstacleList.length; i++) {
+                obslist.push(MazeObstacleList[i]);
+            }
+        } else if (currentBackground === RR_Maze_HS) {
+            obstacle.x = 700;
+            obstacle.y = 100;
+            obstacle.w = 5;
+            obstacle.h = 450;
+            obstacle.color = "#000000";
+            var MazeObstacleList = [{ // add obstacles with lists like this
+                x: 600,
+                y: 100,
+                w: 100,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 400,
+                y: 100,
+                w: 100,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 400,
+                y: 0,
+                w: 5,
+                h: 100,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 500,
+                y: 100,
+                w: 5,
+                h: 100,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 500,
+                y: 200,
+                w: 100,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 600,
+                y: 200,
+                w: 5,
+                h: 250,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 400,
+                y: 450,
+                w: 200,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 300,
+                y: 100,
+                w: 5,
+                h: 450,
+                isParallelToAxis: true,
+                color: "#000000"
+            }, {
+                x: 300,
+                y: 300,
+                w: 200,
+                h: 50,
+                isParallelToAxis: true,
+                color: "#111111"
+            }, {
+                x: 300,
+                y: 200,
+                w: 100,
+                h: 5,
+                isParallelToAxis: true,
+                color: "#000000"
             }, {
                 x: 200,
                 y: 0,
@@ -916,13 +1107,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 mouseOnRobotIndex = i;
             }
         }
-
+        /*
         for (var i = 1; i < obslist.length; i++) {
             isDownObstacle = (startX > obslist[i].x && startX < obslist[i].x + obslist[i].w && startY > obslist[i].y && startY < obslist[i].y + obslist[i].h);
             if (isDownObstacle) {
                 break;
             }
-        }
+        }*/
+
+        isDownObstacle = false;
         isDownRuler = (startX > ruler.x && startX < ruler.x + ruler.w && startY > ruler.y && startY < ruler.y + ruler.h);
         if (isDownRobots || isDownObstacle || isDownRuler || isAnyRobotDown()) {
             e.stopPropagation();
@@ -1005,8 +1198,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             var hoverRuler = (mouseX > ruler.x && mouseX < ruler.x + ruler.w && mouseY > ruler.y && mouseY < ruler.y + ruler.h);
             if (hoverRobot || hoverRuler)
                 $("#robotLayer").css('cursor', 'pointer');
-            var hoverObstacle;
-            for (var i = 1; i < obslist.length; i++) {
+            var hoverObstacle = false;
+            /*for (var i = 1; i < obslist.length; i++) {
                 hoverObstacle = (mouseX > obslist[i].x && mouseX < obslist[i].x + obslist[i].w && mouseY > obslist[i].y && mouseY < obslist[i].y + obslist[i].h);
                 if (hoverObstacle) {
                     $("#robotLayer").css('cursor', 'pointer');
@@ -1014,7 +1207,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     return;
                 }
                 hoverindex = 0;
-            }
+            }*/
             $("#robotLayer").css('cursor', 'auto');
             return;
         }
@@ -1404,7 +1597,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             robot.drawWidth = 1;
         } else if (currentBackground == RR_LineFollowing) {
             var cx = 71;
-            var cy = 460;
+            var cy = 420;
             robot = new reqRobot({
                 x: cx,
                 y: cy + yOffset,
@@ -1415,7 +1608,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 transY: -cy
             }, configuration, num, robotBehaviour);
             robot.canDraw = false;
-        } else if (currentBackground == RR_Maze) {
+        } else if (currentBackground == RR_Maze_ES || currentBackground === RR_Maze_MS || currentBackground === RR_Maze_HS) {
             var cx = 760;
             var cy = 490;
             robot = new reqRobot({
