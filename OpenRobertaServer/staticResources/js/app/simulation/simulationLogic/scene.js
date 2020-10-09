@@ -218,12 +218,13 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
     };
 
     Scene.prototype.drawRobots = function() {
+        this.rCtx.clearRect(0, 0, C.MAX_WIDTH, C.MAX_HEIGHT);
+
         if (this.robots[0].idle) {
             this.drawMbed();
             return;
         }
 
-        this.rCtx.clearRect(0, 0, C.MAX_WIDTH, C.MAX_HEIGHT);
         for (var r = 0; r < this.numprogs; r++) {
             this.rCtx.restore();
             this.rCtx.save();
@@ -435,7 +436,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             //this.rCtx.stroke();
             this.rCtx.lineDashOffset = 0;
             this.rCtx.setLineDash([]);
-            if (this.robots[r].canDraw) {
+            if (false && this.robots[r].canDraw) {
                 this.bCtx.lineCap = 'round';
                 this.bCtx.beginPath();
                 this.bCtx.lineWidth = this.robots[r].drawWidth;
