@@ -153,6 +153,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 //this.oCtx.shadowBlur = 5;
                 //this.oCtx.shadowColor = "black";
                 this.oCtx.fillRect(obslist[i].x, obslist[i].y, obslist[i].w, obslist[i].h);
+
             }
         }
     };
