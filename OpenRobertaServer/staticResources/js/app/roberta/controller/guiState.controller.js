@@ -63,6 +63,7 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
 
     function setInitialState() {
         // User not logged in?
+        $('#head-navigation-upload').css('display', 'none');
         $('.nav > li > ul > .login').addClass('disabled');
         $('#head-navi-icon-user').addClass('error');
         // Toolbox?
@@ -615,6 +616,7 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
         $('#head-navi-tooltip-configuration').attr('data-toggle', 'dropdown');
         $('#head-navi-tooltip-robot').attr('data-toggle', 'dropdown');
         $('#head-navigation-program-edit').removeClass('disabled');
+        $('#head-navigation-upload').css('display', 'none');
         $('.robotType').removeClass('disabled');
         $('#head-navigation-configuration-edit').removeClass('disabled');
         $(".modal").modal("hide");
@@ -630,6 +632,7 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
         }
         if (view === 'tabConfiguration') {
             $('#head-navigation-program-edit').css('display', 'none');
+            $('#head-navigation-upload').css('display', 'none');
             $('#head-navigation-configuration-edit').css('display', 'inline');
             $('#menuTabProgram').parent().removeClass('disabled');
             $('#menuTabConfiguration').parent().addClass('disabled');
@@ -637,11 +640,13 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
         } else if (view === 'tabProgram') {
             $('#head-navigation-configuration-edit').css('display', 'none');
             $('#head-navigation-program-edit').css('display', 'inline');
+            $('#head-navigation-upload').css('display', 'inline');
             $('#menuTabConfiguration').parent().removeClass('disabled');
             $('#menuTabProgram').parent().addClass('disabled');
         } else if (view === 'tabSourceCodeEditor') {
             $('#head-navigation-configuration-edit').css('display', 'none');
             $('#head-navigation-program-edit').css('display', 'inline');
+            $('#head-navigation-upload').css('display', 'none');
             $('#menuTabProgram').parent().removeClass('disabled');
             $('#menuTabConfiguration').parent().removeClass('disabled');
             $('#head-navigation-program-edit').addClass('disabled');
@@ -652,6 +657,7 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
             $('#head-navi-tooltip-program').attr('data-toggle', '');
             $('#head-navi-tooltip-configuration').attr('data-toggle', '');
             $('#head-navigation-program-edit').addClass('disabled');
+            $('#head-navigation-upload').css('display', 'none');
             $('#head-navigation-configuration-edit').addClass('disabled');
         }
     }
@@ -1021,6 +1027,7 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
         $('.nav > li > ul > .login, .logout').removeClass('disabled');
         $('.nav > li > ul > .login.unavailable').addClass('disabled');
         $('.nav > li > ul > .logout').addClass('disabled');
+        $('#head-navigation-upload').css('display', 'inline');
         $('#head-navi-icon-user').removeClass('error');
         $('#head-navi-icon-user').addClass('ok');
         $('#menuSaveProg').parent().addClass('disabled');
@@ -1059,6 +1066,7 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
         setProgramAuthorName(null);
         setProgramShareRelation(null);
         GUISTATE.program.shared = false;
+        $('#head-navigation-upload').css('display', 'none');
         $('.nav > li > ul > .logout, .login').removeClass('disabled');
         $('.nav > li > ul > .login').addClass('disabled');
         $('#head-navi-icon-user').removeClass('ok');

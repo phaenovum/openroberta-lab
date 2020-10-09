@@ -342,18 +342,23 @@ define([ 'exports', 'comm', 'message', 'log', 'util', 'guiState.controller', 'ro
             MSG.displayMessage("POPUP_BEFOREUNLOAD", "POPUP", "", true);
         }
     }
-
-    function linkProgram() {
+    function getLink() {
         var dom = Blockly.Xml.workspaceToDom(blocklyWorkspace);
         var xml = Blockly.Xml.domToText(dom);
         //TODO this should be removed after the next release
         xml = '<export xmlns="http://de.fhg.iais.roberta.blockly"><program>' + xml + '</program><config>' + GUISTATE_C.getConfigurationXML()
                 + '</config></export>';
-        var link = 'https://lab.open-roberta.org/#loadProgram';
+        var link = 'https://cyberspace.roborave.de/#loadProgram';
         link += '&&' + GUISTATE_C.getRobot();
         link += '&&' + GUISTATE_C.getProgramName();
         link += '&&' + xml;
         link = encodeURI(link);
+        return link;
+    }
+    exports.getLink = getLink;
+
+    function linkProgram() {
+        link= getLink();
         var $temp = $("<input>");
         $("body").append($temp);
         $temp.val(link).select();
@@ -364,6 +369,8 @@ define([ 'exports', 'comm', 'message', 'log', 'util', 'guiState.controller', 'ro
         MSG.displayMessage('POPUP_GET_LINK', 'POPUP', displayLink);
     }
     exports.linkProgram = linkProgram;
+
+
 
     /**
      * Create a file from the blocks and download it.

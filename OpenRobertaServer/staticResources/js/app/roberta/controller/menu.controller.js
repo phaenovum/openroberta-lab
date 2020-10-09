@@ -45,7 +45,15 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
         } else if (target[0] === "#gallery") {
             GUISTATE_C.setStartWithoutPopup();
             $('#tabGalleryList').click();
-        } else if (target[0] === "#tutorial") {
+        } else if (target[0] === "#login") {
+            GUISTATE_C.setStartWithoutPopup();
+			$("#loginAccountName").val(target[1]);
+ 			$('#loginPassword').val(target[2]);
+			USER_C.login();
+        }else if (target[0] === "#enableRegistration") {
+			$("#login_register_btn").prop('hidden', false); 
+        }
+		 else if (target[0] === "#tutorial") {
             GUISTATE_C.setStartWithoutPopup();
             $('#tabTutorialList').click();
         } else if (target[0] === "#loadSystem" && target.length >= 2) {
@@ -427,6 +435,33 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
                 break;
             }
         }, 'program edit clicked');
+
+        // UPLOAD Menu
+        $('#head-navigation-upload').onWrap('click', '.dropdown-menu li:not(.disabled) a', function(event) {
+            switch (event.target.id) {
+            case 'menuSubmitSolution':
+				var form = document.createElement("form");
+				form.setAttribute("method", "post");
+				form.setAttribute("action", "https://my.roborave.de/submitSolution.php");
+				form.setAttribute("target", "view");
+				var hiddenField = document.createElement("input"); 
+				hiddenField.setAttribute("type", "hidden");
+				hiddenField.setAttribute("name", "link");
+				hiddenField.setAttribute("value", PROGRAM_C.getLink());
+				var hiddenField2 = document.createElement("input");
+				hiddenField2.setAttribute("type", "hidden");
+				hiddenField2.setAttribute("name", "account");
+				hiddenField2.setAttribute("value", GUISTATE_C.getUserAccountName());
+				form.appendChild(hiddenField);
+				form.appendChild(hiddenField2);
+				document.body.appendChild(form);
+				window.open('', 'view');
+				form.submit();
+                break;
+            default:
+                break;
+            }
+        }, 'upload edit clicked');
 
         // CONF Menu
         $('#head-navigation-configuration-edit').onWrap('click', '.dropdown-menu li:not(.disabled) a', function(event) {

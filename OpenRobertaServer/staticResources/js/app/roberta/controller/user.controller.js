@@ -148,6 +148,8 @@ define([ 'exports', 'log', 'message', 'util', 'user.model', 'guiState.controller
             });
         }
     }
+    exports.login = login;
+
 
     /**
      * Login member of user-group
