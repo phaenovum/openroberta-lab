@@ -808,6 +808,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 for (i = 0; i < MazeObstacleList.length; i++) {
                     obslist.push(MazeObstacleList[i]);
                 }
+                exports.goal = {
+                    x: 200,
+                    y: 450,
+                    w: 100,
+                    h: 100,
+                    color: "#bb7700",
+                    time: 0,
+                    reached: false
+                };
             } else if (currentBackground === RR_Maze_MS) {
                 obstacle.x = 700;
                 obstacle.y = 100;
@@ -895,6 +904,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 for (i = 0; i < MazeObstacleList.length; i++) {
                     obslist.push(MazeObstacleList[i]);
                 }
+                exports.goal = {
+                    x: 200,
+                    y: 450,
+                    w: 100,
+                    h: 100,
+                    color: "#bb7700",
+                    time: 0,
+                    reached: false
+                };
             } else if (currentBackground === RR_Maze_HS) {
                 obstacle.x = 700;
                 obstacle.y = 100;
@@ -996,6 +1014,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 for (i = 0; i < MazeObstacleList.length; i++) {
                     obslist.push(MazeObstacleList[i]);
                 }
+                exports.goal = {
+                    x: 200,
+                    y: 450,
+                    w: 100,
+                    h: 100,
+                    color: "#bb7700",
+                    time: 0,
+                    reached: false
+                };
             } else if (currentBackground === RR_Rainbow_ES || currentBackground === RR_Rainbow_MS) {
                 obstacle.x = 230;
                 obstacle.y = 295;
@@ -1080,299 +1107,9 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 obstacle.color = null;
                 obstacle.img = null;
             }
-            exports.goal = {
-                x: 40,
-                y: 460,
-                w: 60,
-                h: 20,
-                color: "#F68712",
-                time: 0,
-                reached: false
-            };
-        } else if (currentBackground === RR_Maze_ES) {
-            obstacle.x = 700;
-            obstacle.y = 100;
-            obstacle.w = 5;
-            obstacle.h = 450;
-            obstacle.color = "#000000";
-            var MazeObstacleList = [{ // add obstacles with lists like this
-                x: 500,
-                y: 100,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 400,
-                y: 0,
-                w: 5,
-                h: 200,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 400,
-                y: 200,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 600,
-                y: 200,
-                w: 5,
-                h: 250,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 400,
-                y: 450,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 300,
-                y: 100,
-                w: 5,
-                h: 450,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 300,
-                y: 300,
-                w: 200,
-                h: 50,
-                isParallelToAxis: true,
-                color: "#111111"
-            }, {
-                x: 200,
-                y: 0,
-                w: 5,
-                h: 350,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 100,
-                y: 450,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 100,
-                y: 100,
-                w: 5,
-                h: 350,
-                isParallelToAxis: true,
-                color: "#000000"
-            }];
-            for (i = 0; i < MazeObstacleList.length; i++) {
-                obslist.push(MazeObstacleList[i]);
-            }
-        } else if (currentBackground === RR_Maze_MS) {
-            obstacle.x = 700;
-            obstacle.y = 100;
-            obstacle.w = 5;
-            obstacle.h = 450;
-            obstacle.color = "#000000";
-            var MazeObstacleList = [{ // add obstacles with lists like this
-                x: 500,
-                y: 100,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 400,
-                y: 0,
-                w: 5,
-                h: 200,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 400,
-                y: 200,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 600,
-                y: 200,
-                w: 5,
-                h: 250,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 400,
-                y: 450,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 300,
-                y: 100,
-                w: 5,
-                h: 450,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 300,
-                y: 300,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 400,
-                y: 300,
-                w: 100,
-                h: 50,
-                isParallelToAxis: true,
-                color: "#111111"
-            }, {
-                x: 200,
-                y: 0,
-                w: 5,
-                h: 350,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 100,
-                y: 450,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 100,
-                y: 100,
-                w: 5,
-                h: 350,
-                isParallelToAxis: true,
-                color: "#000000"
-            }];
-            for (i = 0; i < MazeObstacleList.length; i++) {
-                obslist.push(MazeObstacleList[i]);
-            }
-        } else if (currentBackground === RR_Maze_HS) {
-            obstacle.x = 700;
-            obstacle.y = 100;
-            obstacle.w = 5;
-            obstacle.h = 450;
-            obstacle.color = "#000000";
-            var MazeObstacleList = [{ // add obstacles with lists like this
-                x: 600,
-                y: 100,
-                w: 100,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 400,
-                y: 100,
-                w: 100,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 400,
-                y: 0,
-                w: 5,
-                h: 100,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 500,
-                y: 100,
-                w: 5,
-                h: 100,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 500,
-                y: 200,
-                w: 100,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 600,
-                y: 200,
-                w: 5,
-                h: 250,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 400,
-                y: 450,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 300,
-                y: 100,
-                w: 5,
-                h: 450,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 300,
-                y: 300,
-                w: 200,
-                h: 50,
-                isParallelToAxis: true,
-                color: "#111111"
-            }, {
-                x: 300,
-                y: 200,
-                w: 100,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 200,
-                y: 0,
-                w: 5,
-                h: 350,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 100,
-                y: 450,
-                w: 200,
-                h: 5,
-                isParallelToAxis: true,
-                color: "#000000"
-            }, {
-                x: 100,
-                y: 100,
-                w: 5,
-                h: 350,
-                isParallelToAxis: true,
-                color: "#000000"
-            }];
-            for (i = 0; i < MazeObstacleList.length; i++) {
-                obslist.push(MazeObstacleList[i]);
-            }
-        } else if (currentBackground === RR_Random) {
-            obstacle.x = 400;
-            obstacle.y = 200;
-            obstacle.w = 200;
-            obstacle.h = 200;
-            obstacle.color = "#920000";
-        } else {
-            obstacle.x = 0;
-            obstacle.y = 0;
-            obstacle.w = 0;
-            obstacle.h = 0;
-            obstacle.color = null;
-            obstacle.img = null;
         }
 
-        }
+
 
         function setRuler() {
             if (currentBackground == 4) {
