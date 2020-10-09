@@ -106,6 +106,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 let s = SIM.switches[i];
                 if (s.imgReleased && s.imgPressed) {
                     const image = s.pressed ? s.imgPressed : s.imgReleased;
+                    // TODO fix?
                     SIM.goal.drawImage(image, s.x, s.y, s.w, s.h);
                 } else if (s.colorReleased && s.colorPressed) {
                     ctx.fillStyle = s.pressed ? s.colorPressed : s.colorReleased;
@@ -454,7 +455,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             }
         }
 
-        if(SIM.goal.reached) {
+        if(SIM.goal && SIM.goal.reached) {
             this.rCtx.drawImage(this.imgGoal, 10, 10, this.imgGoal.width, this.imgGoal.height)
 
             this.rCtx.textAlign = "center";	// This determines the alignment of text, e.g. left, center, right
