@@ -33,6 +33,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         var breakpoints = [];
         var observers = {};
 
+        var imgGoal = new Image();
+
         var imgObstacle1 = new Image();
         var imgPattern = new Image();
         var imgRuler = new Image();
@@ -72,6 +74,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         var RR_Rainbow_HS = 14;
 
         function preloadImages() {
+            imgGoal.src = "/js/app/simulation/simBackgrounds/goal.svg";
+
             if (isIE()) {
                 imgList = imgListIE;
                 randomImageList = randomImageListIE;
@@ -143,9 +147,9 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 setRuler();
                 removeMouseEvents();
                 if (randomImageObjectList[currentBackground].length !== 0) {
-                    scene = new Scene(getrandomObject(), robots, imgPattern, ruler);
+                    scene = new Scene(getrandomObject(), robots, imgPattern, ruler, imgGoal);
                 } else {
-                    scene = new Scene(imgObjectList[currentBackground], robots, imgPattern, ruler);
+                    scene = new Scene(imgObjectList[currentBackground], robots, imgPattern, ruler, imgGoal);
                 }
                 scene.updateBackgrounds();
                 scene.drawObjects();
@@ -181,7 +185,6 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     robots[i].reset();
                 }
                 callback();
-
             });
         }
 
@@ -287,6 +290,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
 
         exports.setInfo = setInfo;
 
+        function resetGame() {
+            exports.goal.reached = false;
+            exports.goal.time = 0;
+            for (var i = 0; i < numRobots; i++) {
+                robots[i].resetGoal();
+            }
+            // TODO: reset switches
+        }
+
         function resetPose() {
             for (var i = 0; i < numRobots; i++) {
                 if (robots[i].resetPose) {
@@ -295,10 +307,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 if (robots[i].time) {
                     robots[i].time = 0;
                 }
-                // EDIT:
-                robots[i].resetGoal();
-                // TODO: reset goal time
             }
+            resetGame();
         }
 
         exports.resetPose = resetPose;
@@ -318,7 +328,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 addMouseEvents();
             }, 205);
 
-
+            //resetGame();
         }
 
         exports.stopProgram = stopProgram;
@@ -508,6 +518,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 }
                 reloadProgram();
             }
+
 
         }
 
@@ -1445,9 +1456,9 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
 
         function initScene() {
             if (randomImageObjectList[currentBackground].length !== 0) {
-                scene = new Scene(getrandomObject(), robots, imgPattern, ruler);
+                scene = new Scene(getrandomObject(), robots, imgPattern, ruler, imgGoal);
             } else {
-                scene = new Scene(imgObjectList[currentBackground], robots, imgPattern, ruler);
+                scene = new Scene(imgObjectList[currentBackground], robots, imgPattern, ruler, imgGoal);
             }
             scene.updateBackgrounds();
             scene.drawObjects();

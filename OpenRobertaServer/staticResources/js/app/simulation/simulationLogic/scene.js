@@ -10,7 +10,9 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
      *
      * @constructor
      */
-    function Scene(backgroundImg, robots, pattern, ruler) {
+    function Scene(backgroundImg, robots, pattern, ruler, imgGoal) {
+
+        this.imgGoal = imgGoal;
         this.backgroundImg = backgroundImg;
         this.robots = robots;
         this.numprogs = robots.length;
@@ -250,10 +252,10 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 $("#notConstantValue").append('<div><label>Motor right</label><span>' + UTIL.round(this.robots[r].encoder.right * C.ENC, 0) + '°</span></div>');
 
                 // EDIT:
-                if(SIM.goal) {
-                    $("#notConstantValue").append('<div><label>Robot ' + r + ': goal</label><span>' + (this.robots[r].goal ? 'true' : 'false') + '</span></div>');
-                    $("#notConstantValue").append('<div><label>Robot ' + r + ': time</label><span>' + UTIL.round(this.robots[r].goalTime, 3) + 's</span></div>');
-                }
+                //if(SIM.goal) {
+                //    $("#notConstantValue").append('<div><label>Robot ' + r + ': goal</label><span>' + (this.robots[r].goal ? 'true' : 'false') + '</span></div>');
+                //    $("#notConstantValue").append('<div><label>Robot ' + r + ': time</label><span>' + UTIL.round(this.robots[r].goalTime, 3) + 's</span></div>');
+                //}
 
                 if(SIM.goal && r == 0) {
                     $("#notConstantValue").append('<div><label>Goal reached</label><span>' + (SIM.goal.reached ? 'true' : 'false') + '</span></div>');
@@ -451,6 +453,30 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 this.robots[r].pose.yOld = this.robots[r].pose.y;
             }
         }
+
+        if(SIM.goal.reached) {
+            this.rCtx.drawImage(this.imgGoal, 10, 10, this.imgGoal.width, this.imgGoal.height)
+
+            this.rCtx.textAlign = "center";	// This determines the alignment of text, e.g. left, center, right
+            this.rCtx.textBaseline = "middle";	// This determines the baseline of the text, e.g. top, middle, bottom
+            this.rCtx.font = "120px ProggyTiny";	// This determines the size of the text and the font family used
+
+            this.rCtx.translate(this.imgGoal.width/2+10, this.imgGoal.height/2+50)
+            this.rCtx.rotate(-5 * Math.PI / 180)
+
+            var text = "Time: " + UTIL.round(SIM.goal.time, 3);
+
+            this.rCtx.fillStyle = "#00cb01";
+            this.rCtx.fillText(text, -3 ,0);
+
+            this.rCtx.fillStyle = "#c00001";
+            this.rCtx.fillText(text, 0,3);
+
+            this.rCtx.fillStyle = "#f48613";
+            this.rCtx.fillText(text, 0 ,0);
+        }
+
+
     };
 
     Scene.prototype.updateSensorValues = function(running) {

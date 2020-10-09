@@ -13,6 +13,13 @@ ol {
     margin: 0;
 }
 
+
+
+@font-face {
+    font-family: 'ProggyTiny';
+    src: url('fonts/ProggyTiny.ttf') format('truetype');
+}
+
 @font-face {
     font-family: 'Roboto';
     src: url('fonts/Roboto-Regular.ttf') format('truetype');
