@@ -466,7 +466,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             this.rCtx.translate(this.imgGoal.width/2+10, this.imgGoal.height/2+50)
             this.rCtx.rotate(-5 * Math.PI / 180)
 
-            var text = "Time: " + UTIL.round(SIM.goal.time, 3);
+            var text = "Time: " + UTIL.round(SIM.goal.time, 3) + "s";
 
             this.rCtx.fillStyle = "#00cb01";
             this.rCtx.fillText(text, -3 ,0);
