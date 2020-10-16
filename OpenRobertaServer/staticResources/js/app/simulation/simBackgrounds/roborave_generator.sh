@@ -82,4 +82,5 @@ else
 			done
 		done
 	done
+	rm temp_${output_file_base}*
 fi
