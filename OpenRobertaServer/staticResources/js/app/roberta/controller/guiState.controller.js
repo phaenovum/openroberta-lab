@@ -640,7 +640,9 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
         } else if (view === 'tabProgram') {
             $('#head-navigation-configuration-edit').css('display', 'none');
             $('#head-navigation-program-edit').css('display', 'inline');
+            if(GUISTATE.user.accountName!=''){
             $('#head-navigation-upload').css('display', 'inline');
+            }
             $('#menuTabConfiguration').parent().removeClass('disabled');
             $('#menuTabProgram').parent().addClass('disabled');
         } else if (view === 'tabSourceCodeEditor') {
