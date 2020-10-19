@@ -7,10 +7,6 @@ green="#008026"
 blue="#004dff"
 purple="#750787"
 
-colors=( "${red}" "${yellow}" "${green}" "${blue}" )
-paths=( "north" "east" "south" "west" )
-divisions=( "MS" )
-
 # A short help message.
 usage () {
 	echo "Usage: $0 [-h] -o output.svg <input.svg>" >&2
@@ -67,6 +63,18 @@ else
 	output_file_base=$(basename $output_file .svg)
 	output_file_dir=$(dirname $output_file)
 	count=0
+	if [ -z ${HS+x} ]
+	then
+		echo MS
+		colors=( "${red}" "${yellow}" "${green}" "${blue}" )
+		paths=( "north" "east" "south" "west" )
+		divisions=( "MS" )
+	else
+		echo HS
+		colors=( "${red}" "${orange}" "${yellow}" "${green}" "${blue}" "${purple}" )
+		paths=( "northeast" "east" "southeast" "southwest" "west" "northwest" )
+		divisions=( "HS" )
+	fi
 	colors_sz=${#colors[*]}
 	for division in "${divisions[@]}"
 	do
@@ -102,15 +110,13 @@ else
 								echo $count
 							fi
 						else
-							colors=( "${red}" "${orange}" "${yellow}" "${green}" "${blue}" "${purple}" )
-							division=( "HS" )
-							paths=( "northeast" "east" "southeast" "southwest" "west" "northwest" )
 							for (( m=0; m<$(( $colors_sz )); m++ ))
 							do
 								for (( n=0; n<$(( $colors_sz )); n++ ))
 								do
 									if [ $i -ne $j ] && [ $i -ne $k ] && [ $i -ne $l ] && [ $i -ne $m ] && [ $i -ne $n ] && [ $j -ne $k ] && [ $j -ne $l ] && [ $j -ne $m ] && [ $j -ne $n ] && [ $k -ne $l ] && [ $k -ne $m ] && [ $k -ne $n ] && [ $l -ne $m ] && [ $l -ne $n ] && [ $m -ne $n ]
 									then
+										echo hit
 										rainbow=("${colors[i]}" "${colors[j]}" "${colors[k]}" "${colors[l]}" "${colors[m]}" "${colors[n]}")
 										cp ${input_file} ${output_file_dir}/"temp_${output_file_base}_in0.svg"
 										temp_input_file="${output_file_dir}/temp_${output_file_base}_in0.svg"
@@ -124,8 +130,9 @@ else
 											#inkview ${temp_input_file}
 										done
 
-										set_division "${division}" "${temp_input_file}" "${output_file_dir}/${output_file_base}_$count.svg"
-										rm "${temp_input_file}"
+										#set_division "${division}" "${temp_input_file}" "${output_file_dir}/${output_file_base}_$count.svg"
+										#rm "${temp_input_file}"
+										mv "${temp_input_file}" "${output_file_dir}/${output_file_base}_$count.svg"
 										#inkview "${output_file_dir}/${output_file_base}_$count.svg"
 										((count++))
 										echo $count
