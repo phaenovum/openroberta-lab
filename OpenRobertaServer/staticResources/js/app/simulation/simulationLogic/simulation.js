@@ -59,8 +59,10 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             '/js/app/simulation/simBackgrounds/dummyBackground.png', '/js/app/simulation/simBackgrounds/dummyBackground.png'
         ];
         // [] -> dummys for scenes without random Images
-        var randomImageList = [[], [], [], [], [], [], [], [], [], [], [], [], ['/js/app/simulation/simBackgrounds/Rainbow_ES/rainbowBackground_ES.svg', '/js/app/simulation/simBackgrounds/Rainbow_ES/rainbowDinoBackground_ES.svg'], ['/js/app/simulation/simBackgrounds/Rainbow_MS/rainbowBackground.svg', '/js/app/simulation/simBackgrounds/Rainbow_MS/rainbowDinoBackground.svg'], ['/js/app/simulation/simBackgrounds/Rainbow_HS/rainbowBackground_HS.svg']]
-        var randomImageListIE = [[], [], [], [], [], [], [], [], [], [], [], [], ['/js/app/simulation/simBackgrounds/Rainbow_ES/rainbowBackground_ES.png', '/js/app/simulation/simBackgrounds/Rainbow_ES/rainbowDinoBackground_ES.png'], ['/js/app/simulation/simBackgrounds/Rainbow_MS/rainbowBackground.png', '/js/app/simulation/simBackgrounds/Rainbow_MS/rainbowDinoBackground.png'], ['/js/app/simulation/simBackgrounds/Rainbow_HS/rainbowBackground_HS.png']]
+        var randomImageList = [[], [], [], [], [], [], [], [], [], [], [], [], ['/js/app/simulation/simBackgrounds/roborave/rainbow/es/dino.svg','/js/app/simulation/simBackgrounds/roborave/rainbow/es/rainbow.svg'],
+            ['/js/app/simulation/simBackgrounds/roborave/rainbow/ms/'],
+            ['/js/app/simulation/simBackgrounds/roborave/rainbow/hs/']]
+        var randomImageListIE = []
         var randomImageObjectList = [[]]
 
 
@@ -80,7 +82,18 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 imgList = imgListIE;
                 randomImageList = randomImageListIE;
             }
-            var i = 0;
+            let i;
+            hs_dir = randomImageList[RR_Rainbow_HS][0];
+            for (i = 0; i < 256; i++){
+                randomImageList[RR_Rainbow_HS][i] = hs_dir+ "space_invaders_" + i.toString()+ ".svg";
+            }
+            ms_dir = randomImageList[RR_Rainbow_MS][0];
+            for (i = 0; i < 24; i++){
+                randomImageList[RR_Rainbow_MS][i] = ms_dir+ "dino_" + i.toString()+ ".svg";
+            }
+            for (i = 0; i < 24; i++){
+                randomImageList[RR_Rainbow_MS][i+24] = ms_dir+ "rainbow_" + i.toString()+ ".svg";
+            }
             for (i = 0; i < imgList.length; i++) {
                 if (i === 0) {
                     imgObstacle1.src = imgList[i];
@@ -93,6 +106,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     imgObjectList[i - 3].src = imgList[i];
                 }
             }
+
             for (i = 0; i < randomImageList.length; i++) {
                 randomImageObjectList[i] = [];
                 if (randomImageList[i].length !== 0) {
@@ -1035,10 +1049,10 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     reached: false
                 };
             } else if (currentBackground === RR_Rainbow_ES || currentBackground === RR_Rainbow_MS) {
-                obstacle.x = 230;
-                obstacle.y = 295;
-                obstacle.w = 40;
-                obstacle.h = 25;
+                obstacle.x = 310;
+                obstacle.y = 340;
+                obstacle.w = 25;
+                obstacle.h = 40;
                 obstacle.color = "#444444";
                 var MazeObstacleList = [{ // add obstacles with lists like this
                     x: 90,
@@ -1048,10 +1062,10 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     isParallelToAxis: true,
                     color: "#444444"
                 }, {
-                    x: 750,
-                    y: 238,
-                    w: 40,
-                    h: 25,
+                    x: 780,
+                    y: 190,
+                    w: 25,
+                    h: 40,
                     isParallelToAxis: true,
                     color: "#444444"
                 }, {
@@ -1093,17 +1107,17 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     isParallelToAxis: true,
                     color: "#ff00ff"
                 }, {
-                    x: 580,
-                    y: 20,
-                    w: 20,
-                    h: 15,
+                    x: 600,
+                    y: 50,
+                    w: 15,
+                    h: 20,
                     isParallelToAxis: true,
                     color: "#ff00ff"
                 }, {
-                    x: 360,
-                    y: 155,
-                    w: 15,
-                    h: 20,
+                    x: 388,
+                    y: 120,
+                    w: 20,
+                    h: 15,
                     isParallelToAxis: true,
                     color: "#ff00ff"
                 }];
