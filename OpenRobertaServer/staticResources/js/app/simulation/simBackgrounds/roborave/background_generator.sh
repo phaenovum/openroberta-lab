@@ -105,6 +105,9 @@ else
 
 								set_division "${division}" "${temp_input_file}" "${output_file_dir}/${output_file_base}_$count.svg"
 								rm "${temp_input_file}"
+								inkscape "${output_file_dir}/${output_file_base}_$count.svg"  --export-text-to-path --export-plain-svg --export-filename="${output_file_dir}/${output_file_base}_$count_max.svg"
+								scour -i "${output_file_dir}/${output_file_base}_$count_max.svg" -o "${output_file_dir}/${output_file_base}_$count.svg"
+								rm "${output_file_dir}/${output_file_base}_$count_max.svg"
 								inkview "${output_file_dir}/${output_file_base}_$count.svg"
 								((count++))
 								echo $count
@@ -130,9 +133,9 @@ else
 											#inkview ${temp_input_file}
 										done
 
-										#set_division "${division}" "${temp_input_file}" "${output_file_dir}/${output_file_base}_$count.svg"
-										#rm "${temp_input_file}"
-										mv "${temp_input_file}" "${output_file_dir}/${output_file_base}_$count.svg"
+										inkscape "${temp_input_file}"  --export-text-to-path --export-plain-svg --export-overwrite
+										scour -i "${temp_input_file}" -o "${output_file_dir}/${output_file_base}_$count.svg"
+										rm "${temp_input_file}"
 										#inkview "${output_file_dir}/${output_file_base}_$count.svg"
 										((count++))
 										echo $count
