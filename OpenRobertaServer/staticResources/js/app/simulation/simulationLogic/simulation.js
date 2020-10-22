@@ -43,9 +43,10 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             '/js/app/simulation/simBackgrounds/microbitBackground.svg', '/js/app/simulation/simBackgrounds/simpleBackground.svg',
             '/js/app/simulation/simBackgrounds/drawBackground.svg', '/js/app/simulation/simBackgrounds/robertaBackground.svg',
             '/js/app/simulation/simBackgrounds/rescueBackground.svg', '/js/app/simulation/simBackgrounds/wroBackground.svg',
-            '/js/app/simulation/simBackgrounds/mathBackground.svg', '/js/app/simulation/simBackgrounds/roboraveBackground.svg',
-            '/js/app/simulation/simBackgrounds/RoboRaveMaze.svg', '/js/app/simulation/simBackgrounds/RoboRaveMaze.svg',
-            '/js/app/simulation/simBackgrounds/RoboRaveMaze.svg', '/js/app/simulation/simBackgrounds/dummyBackground.svg',
+            '/js/app/simulation/simBackgrounds/mathBackground.svg', '/js/app/simulation/simBackgrounds/roborave/line-following/es.svg',
+            '/js/app/simulation/simBackgrounds/roborave/line-following/ms.svg','/js/app/simulation/simBackgrounds/roborave/line-following/hs.svg',
+            '/js/app/simulation/simBackgrounds/roborave/labyrinth/es/labyrinth.svg', '/js/app/simulation/simBackgrounds/roborave/labyrinth/ms/labyrinth.svg',
+            '/js/app/simulation/simBackgrounds/roborave/labyrinth/hs/labyrinth.svg', '/js/app/simulation/simBackgrounds/dummyBackground.svg',
             '/js/app/simulation/simBackgrounds/dummyBackground.svg', '/js/app/simulation/simBackgrounds/dummyBackground.svg'
         ];
         var imgListIE = ['/js/app/simulation/simBackgrounds/baustelle.png', '/js/app/simulation/simBackgrounds/ruler.png',
@@ -59,7 +60,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             '/js/app/simulation/simBackgrounds/dummyBackground.png', '/js/app/simulation/simBackgrounds/dummyBackground.png'
         ];
         // [] -> dummys for scenes without random Images
-        var randomImageList = [[], [], [], [], [], [], [], [], [], [], [], [], ['/js/app/simulation/simBackgrounds/roborave/rainbow/es/dino.svg','/js/app/simulation/simBackgrounds/roborave/rainbow/es/rainbow.svg'],
+        var randomImageList = [[], [], [], [], [], [], [], [], [], [], [], [], [],[], ['/js/app/simulation/simBackgrounds/roborave/rainbow/es/dino.svg','/js/app/simulation/simBackgrounds/roborave/rainbow/es/rainbow.svg'],
             ['/js/app/simulation/simBackgrounds/roborave/rainbow/ms/'],
             ['/js/app/simulation/simBackgrounds/roborave/rainbow/hs/']]
         var randomImageListIE = []
@@ -67,13 +68,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
 
 
         var imgObjectList = [];
-        var RR_LineFollowing = 8;
-        var RR_Maze_ES = 9;
-        var RR_Maze_MS = 10;
-        var RR_Maze_HS = 11;
-        var RR_Rainbow_ES = 12;
-        var RR_Rainbow_MS = 13;
-        var RR_Rainbow_HS = 14;
+        var RR_LineFollowing_ES = 8;
+        var RR_LineFollowing_MS = 9;
+        var RR_LineFollowing_HS = 10;
+        var RR_Maze_ES = 11;
+        var RR_Maze_MS = 12;
+        var RR_Maze_HS = 13;
+        var RR_Rainbow_ES = 14;
+        var RR_Rainbow_MS = 15;
+        var RR_Rainbow_HS = 16;
 
         function preloadImages() {
             imgGoal.src = "/js/app/simulation/simBackgrounds/goal.svg";
@@ -149,7 +152,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
 
         preloadImages();
 
-        var currentBackground = RR_LineFollowing;
+        var currentBackground = RR_LineFollowing_ES;
 
         function getrandomObject() {
             return randomImageObjectList[currentBackground][Math.floor(Math.random() * randomImageObjectList[currentBackground].length)];
@@ -736,7 +739,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 obstacle.h = 50;
                 obstacle.color = "#009EE3";
                 obstacle.img = null;
-            } else if (currentBackground == RR_LineFollowing) {
+            } else if (currentBackground == RR_LineFollowing_ES || currentBackground == RR_LineFollowing_MS || currentBackground == RR_LineFollowing_HS) {
                 obstacle.x = 734;
                 obstacle.y = 62;
                 obstacle.w = 60;
@@ -1144,7 +1147,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 ruler.h = 30;
                 ruler.img = imgRuler;
                 ruler.color = null;
-                //} else if (currentBackground == RR_LineFollowing) {
+                //} else if (currentBackground == RR_LineFollowing_ES) {
                 //    ruler.x = 200;
                 //    ruler.y = 200;
                 //    ruler.w = 300;
@@ -1702,7 +1705,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 robot.canDraw = true;
                 robot.drawColor = "#ffffff";
                 robot.drawWidth = 1;
-            } else if (currentBackground == RR_LineFollowing) {
+            } else if (currentBackground == RR_LineFollowing_ES || currentBackground == RR_LineFollowing_MS || currentBackground == RR_LineFollowing_HS) {
                 var cx = 71;
                 var cy = 420;
                 robot = new reqRobot({
