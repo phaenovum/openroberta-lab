@@ -38,13 +38,14 @@
      inkscape:window-height="1017"
      id="namedview1318"
      showgrid="false"
-     inkscape:zoom="0.85375"
-     inkscape:cx="400"
-     inkscape:cy="270"
+     inkscape:zoom="1.2073848"
+     inkscape:cx="452.56719"
+     inkscape:cy="261.76277"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0" />
   <style
      id="style833">
     @font-face {
@@ -2079,79 +2080,6 @@
           </g>
         </g>
       </g>
-    </g>
-    <g
-       id="g2116"
-       transform="matrix(0.9961947,-0.08715574,-0.26414844,1.0269298,37.131389,-19.021067)"
-       font-style="normal"
-       font-variant="normal"
-       font-weight="400"
-       font-stretch="normal"
-       font-size="35.278px"
-       font-family="ProggyTinyTT"
-       letter-spacing="0"
-       fill-opacity="1"
-       stroke-width="0.265">
-      <text
-         xml:space="preserve"
-         style="line-height:1.25;-inkscape-font-specification:ProggyTinyTT"
-         x="1.427"
-         y="147.91701"
-         id="text2090"
-         fill="#00cd00"><tspan
-           id="tspan2088"
-           x="1.427"
-           y="147.91701"
-           style="-inkscape-font-specification:ProggyTinyTT"
-           font-style="normal"
-           font-variant="normal"
-           font-weight="400"
-           font-stretch="normal"
-           font-size="35.278px"
-           font-family="ProggyTinyTT"
-           fill="#00cd00"
-           fill-opacity="1"
-           stroke-width="0.265">Goal Reached !!!</tspan></text>
-      <text
-         xml:space="preserve"
-         style="line-height:1.25;-inkscape-font-specification:ProggyTinyTT"
-         x="2.6300001"
-         y="148.58299"
-         id="text2094"
-         fill="#c20000"><tspan
-           id="tspan2092"
-           x="2.6300001"
-           y="148.58299"
-           style="-inkscape-font-specification:ProggyTinyTT"
-           font-style="normal"
-           font-variant="normal"
-           font-weight="400"
-           font-stretch="normal"
-           font-size="35.278px"
-           font-family="ProggyTinyTT"
-           fill="#c20000"
-           fill-opacity="1"
-           stroke-width="0.265">Goal Reached !!!</tspan></text>
-      <text
-         xml:space="preserve"
-         style="line-height:1.25;-inkscape-font-specification:ProggyTinyTT"
-         x="2.3629999"
-         y="147.91499"
-         id="text2050"
-         fill="#f68712"><tspan
-           id="tspan2048"
-           x="2.3629999"
-           y="147.91499"
-           style="-inkscape-font-specification:ProggyTinyTT"
-           font-style="normal"
-           font-variant="normal"
-           font-weight="400"
-           font-stretch="normal"
-           font-size="35.278px"
-           font-family="ProggyTinyTT"
-           fill="#f68712"
-           fill-opacity="1"
-           stroke-width="0.265">Goal Reached !!!</tspan></text>
     </g>
   </g>
 </svg>

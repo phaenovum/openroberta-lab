@@ -459,23 +459,34 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
         if(SIM.goal && SIM.goal.reached) {
             this.rCtx.drawImage(this.imgGoal, 10, 10, this.imgGoal.width, this.imgGoal.height)
 
-            this.rCtx.textAlign = "center";	// This determines the alignment of text, e.g. left, center, right
-            this.rCtx.textBaseline = "middle";	// This determines the baseline of the text, e.g. top, middle, bottom
-            this.rCtx.font = "120px ProggyTiny";	// This determines the size of the text and the font family used
+            function drawFancyText(ctx, x, y, text, px) {
+                ctx.textAlign = "center";	// This determines the alignment of text, e.g. left, center, right
+                ctx.textBaseline = "middle";	// This determines the baseline of the text, e.g. top, middle, bottom
+                ctx.font = px + "px ProggyTiny";	// This determines the size of the text and the font family used
 
-            this.rCtx.translate(this.imgGoal.width/2+10, this.imgGoal.height/2+50)
-            this.rCtx.rotate(-5 * Math.PI / 180)
+                ctx.translate(x, y);
+                ctx.rotate(-5 * Math.PI / 180);
 
-            var text = "Time: " + UTIL.round(SIM.goal.time, 3) + "s";
+                ctx.fillStyle = "#00cb01";
+                ctx.fillText(text, -3 ,0);
 
-            this.rCtx.fillStyle = "#00cb01";
-            this.rCtx.fillText(text, -3 ,0);
+                ctx.fillStyle = "#c00001";
+                ctx.fillText(text, 0,3);
 
-            this.rCtx.fillStyle = "#c00001";
-            this.rCtx.fillText(text, 0,3);
+                ctx.fillStyle = "#f48613";
+                ctx.fillText(text, 0 ,0);
 
-            this.rCtx.fillStyle = "#f48613";
-            this.rCtx.fillText(text, 0 ,0);
+                // TODO: proper reset for rotation/translation
+                ctx.rotate(5 * Math.PI / 180);
+                ctx.translate(-x, -y);
+            }
+
+            const goalMessage = "Goal Reached !!!";
+            drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2-100, goalMessage, 130);
+
+            const timeMessage = "Time: " + UTIL.round(SIM.goal.time, 3) + "s";
+            drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2+50, timeMessage, 130);
+
         }
 
 
