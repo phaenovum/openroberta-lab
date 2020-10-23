@@ -831,8 +831,10 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                     const reachedWaypoint = doesRobotIntersect(this.robots[r], SIM.waypoints[i]);
 
                     if (reachedWaypoint &&
-                        (i === SIM.waypointsIndex
-                            || (SIM.waypointsReverse && SIM.waypointsIndex >= SIM.waypoints.length && SIM.waypointsIndex%SIM.waypoints.length === SIM.waypoints.length-i-1))) {
+                        (i === SIM.waypointsIndex ||
+                            (SIM.waypointsReverse && SIM.waypointsIndex >= SIM.waypoints.length &&
+                                SIM.waypointsIndex < 2*SIM.waypoints.length &&
+                                SIM.waypointsIndex%SIM.waypoints.length === SIM.waypoints.length-i-1))) {
                         SIM.waypointsIndex ++;
                         console.log(SIM.waypointsIndex);
                     }
