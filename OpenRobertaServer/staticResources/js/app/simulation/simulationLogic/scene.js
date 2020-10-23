@@ -496,7 +496,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 ctx.fillText(text, -3 ,0);
 
                 ctx.fillStyle = "#c00001";
-                ctx.fillText(text, 0,3);
+                ctx.fillText(text, 3,0);
 
                 ctx.fillStyle = "#f48613";
                 ctx.fillText(text, 0 ,0);
@@ -788,12 +788,22 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 return point.rx >= rect.x && point.rx <= (rect.x + rect.w) && point.ry >= rect.y && point.ry <= (rect.y + rect.h)
             }
 
+            // TODO: Fix
+            function doRectsIntersect(r1, r2) {
+                return r2.x < r1.x + r1.w && r1.x < r2.x + r2.w && r2.y < r1.y + r1.h && r1.y < r2.y + r2.h;
+            }
+
+            function doesRobotIntersect(robot, rect) {
+                var intersect = false;
+                intersect ||= isInsideRect(robot.frontLeft, rect);
+                intersect ||= isInsideRect(robot.frontRight, rect);
+                intersect ||= isInsideRect(robot.backLeft, rect);
+                intersect ||= isInsideRect(robot.backRight, rect);
+                return intersect;
+            }
+
             if(SIM.goal) {
-                var goalReached = false;
-                goalReached ||= isInsideRect(this.robots[r].frontLeft, SIM.goal);
-                goalReached ||= isInsideRect(this.robots[r].frontRight, SIM.goal);
-                goalReached ||= isInsideRect(this.robots[r].backLeft, SIM.goal);
-                goalReached ||= isInsideRect(this.robots[r].backRight, SIM.goal);
+                const goalReached = doesRobotIntersect(this.robots[r], SIM.goal);
 
                 if(goalReached &&
                     (!SIM.waypoints ||                                                           // do waypoints exist
@@ -818,11 +828,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 }
 
                 for (let i = 0; i < SIM.waypoints.length; i++) {
-                    var reachedWaypoint = false;
-                    reachedWaypoint ||= isInsideRect(this.robots[r].frontLeft, SIM.waypoints[i]);
-                    reachedWaypoint ||= isInsideRect(this.robots[r].frontRight, SIM.waypoints[i]);
-                    reachedWaypoint ||= isInsideRect(this.robots[r].backLeft, SIM.waypoints[i]);
-                    reachedWaypoint ||= isInsideRect(this.robots[r].backRight, SIM.waypoints[i]);
+                    const reachedWaypoint = doesRobotIntersect(this.robots[r], SIM.waypoints[i]);
 
                     if (reachedWaypoint &&
                         (i === SIM.waypointsIndex
@@ -836,11 +842,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             if(SIM.switches) {
                 for (let i = 0; i < SIM.switches.length; i++) {
                     let s = SIM.switches[i];
-                    var inside = false;
-                    inside ||= isInsideRect(this.robots[r].frontLeft, s);
-                    inside ||= isInsideRect(this.robots[r].frontRight, s);
-                    inside ||= isInsideRect(this.robots[r].backLeft, s);
-                    inside ||= isInsideRect(this.robots[r].backRight, s);
+                    const inside = doesRobotIntersect(this.robots[r], s);
                     if(s.pressed != inside) {
                         // store state for events
                         s.pressed = inside;
