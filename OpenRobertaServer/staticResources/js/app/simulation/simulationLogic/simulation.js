@@ -319,12 +319,20 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         exports.setInfo = setInfo;
 
         function resetGame() {
-            exports.goal.reached = false;
-            exports.goal.time = 0;
+            if(exports.goal) {
+                exports.goal.reached = false;
+                exports.goal.time = 0;
+            }
             for (var i = 0; i < numRobots; i++) {
                 robots[i].resetGoal();
             }
-            // TODO: reset switches
+
+            if(exports.switches) {
+                for (let i = 0; i < exports.switches.length; i++) {
+                    exports.switches[i].pressed = false;
+                }
+            }
+            exports.waypointsIndex = 0;
         }
 
         function resetPose() {
@@ -402,6 +410,54 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         };*/
 
         exports.goal = goal;
+
+        exports.waypointsIndex = 0;
+        exports.waypointsReverse = true;
+        exports.waypoints = [
+            {
+                x: 35,
+                y: 235,
+                w: 80,
+                h: 20
+            },
+            {
+                x: 165,
+                y: 70,
+                w: 20,
+                h: 80
+            },
+            {
+                x: 220,
+                y: 250,
+                w: 50,
+                h: 50
+            },
+            {
+                x: 310,
+                y: 415,
+                w: 20,
+                h: 80
+            },
+            {
+                x: 440,
+                y: 300,
+                w: 50,
+                h: 50
+            },
+            {
+                x: 700,
+                y: 280,
+                w: 50,
+                h: 50
+            },
+            {
+                x: 710,
+                y: 30,
+                w: 100,
+                h: 80
+            }
+        ];
+        exports.waypointsDebug = true;
 
         var switches = null;
         /*[

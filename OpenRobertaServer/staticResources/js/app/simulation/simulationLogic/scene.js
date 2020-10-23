@@ -115,6 +115,31 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             }
         }
 
+        if(SIM.waypointsDebug && SIM.waypoints) {
+            for (let i = 0; i < SIM.waypoints.length; i++) {
+                const wp = SIM.waypoints[i];
+
+                if(i < SIM.waypointsIndex) {
+                    ctx.fillStyle = "#32ff00";
+
+                    if(SIM.waypointsReverse && !(SIM.waypointsIndex-SIM.waypoints.length >= SIM.waypoints.length-i)) {
+                        ctx.fillStyle = "#ff6800";
+                    }
+                } else {
+                    ctx.fillStyle = "#ff0000";
+                }
+
+                ctx.fillRect(wp.x, wp.y, wp.w, wp.h);
+
+                ctx.textAlign = "center";
+                ctx.textBaseline = "bottom";
+                ctx.font = "50px ProggyTiny";
+                ctx.fillStyle = "#FFFFFF";
+
+                ctx.fillText(i, wp.x + wp.w/2 ,wp.y + wp.h/2+10);
+            }
+        }
+
     };
 
     Scene.prototype.drawRuler = function() {
@@ -759,19 +784,52 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             }
 
             // EDIT:
-            function isInsideGoal(x, y, point, rect) {
+            function isInsideRect(point, rect) {
                 return point.rx >= rect.x && point.rx <= (rect.x + rect.w) && point.ry >= rect.y && point.ry <= (rect.y + rect.h)
             }
 
             if(SIM.goal) {
-                //this.robots[r].goal = false;
-                this.robots[r].goal |= isInsideGoal(x, y, this.robots[r].frontLeft, SIM.goal);
-                this.robots[r].goal |= isInsideGoal(x, y, this.robots[r].frontRight, SIM.goal);
-                this.robots[r].goal |= isInsideGoal(x, y, this.robots[r].backLeft, SIM.goal);
-                this.robots[r].goal |= isInsideGoal(x, y, this.robots[r].backRight, SIM.goal);
-                SIM.goal.reached |= this.robots[r].goal;
-                if(running && !this.robots[r].goal) {
+                var goalReached = false;
+                goalReached ||= isInsideRect(this.robots[r].frontLeft, SIM.goal);
+                goalReached ||= isInsideRect(this.robots[r].frontRight, SIM.goal);
+                goalReached ||= isInsideRect(this.robots[r].backLeft, SIM.goal);
+                goalReached ||= isInsideRect(this.robots[r].backRight, SIM.goal);
+
+                if(goalReached &&
+                    (!SIM.waypoints ||                                                           // do waypoints exist
+                        (!SIM.waypointsReverse && SIM.waypointsIndex === SIM.waypoints.length || // goal no reverse
+                        (SIM.waypointsReverse && SIM.waypointsIndex === SIM.waypoints.length*2)) // goal reverse
+                    )
+                  )
+                {
+                    this.robots[r].goal = true;
+                    SIM.goal.reached = true;
+                }
+
+                if(running && !SIM.goal.reached) {
                     this.robots[r].goalTime += SIM.getDt();
+                }
+            }
+
+            if(SIM.waypoints) {
+
+                if(SIM.waypointsDebug) {
+                    this.drawBackground();
+                }
+
+                for (let i = 0; i < SIM.waypoints.length; i++) {
+                    var reachedWaypoint = false;
+                    reachedWaypoint ||= isInsideRect(this.robots[r].frontLeft, SIM.waypoints[i]);
+                    reachedWaypoint ||= isInsideRect(this.robots[r].frontRight, SIM.waypoints[i]);
+                    reachedWaypoint ||= isInsideRect(this.robots[r].backLeft, SIM.waypoints[i]);
+                    reachedWaypoint ||= isInsideRect(this.robots[r].backRight, SIM.waypoints[i]);
+
+                    if (reachedWaypoint &&
+                        (i === SIM.waypointsIndex
+                            || (SIM.waypointsReverse && SIM.waypointsIndex >= SIM.waypoints.length && SIM.waypointsIndex%SIM.waypoints.length === SIM.waypoints.length-i-1))) {
+                        SIM.waypointsIndex ++;
+                        console.log(SIM.waypointsIndex);
+                    }
                 }
             }
 
@@ -779,10 +837,10 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 for (let i = 0; i < SIM.switches.length; i++) {
                     let s = SIM.switches[i];
                     var inside = false;
-                    inside |= isInsideGoal(x, y, this.robots[r].frontLeft, s);
-                    inside |= isInsideGoal(x, y, this.robots[r].frontRight, s);
-                    inside |= isInsideGoal(x, y, this.robots[r].backLeft, s);
-                    inside |= isInsideGoal(x, y, this.robots[r].backRight, s);
+                    inside ||= isInsideRect(this.robots[r].frontLeft, s);
+                    inside ||= isInsideRect(this.robots[r].frontRight, s);
+                    inside ||= isInsideRect(this.robots[r].backLeft, s);
+                    inside ||= isInsideRect(this.robots[r].backRight, s);
                     if(s.pressed != inside) {
                         // store state for events
                         s.pressed = inside;
