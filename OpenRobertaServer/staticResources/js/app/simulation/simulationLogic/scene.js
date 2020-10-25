@@ -115,28 +115,33 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             }
         }
 
-        if(SIM.waypointsDebug && SIM.waypoints) {
-            for (let i = 0; i < SIM.waypoints.length; i++) {
-                const wp = SIM.waypoints[i];
+        if(SIM.waypointData.waypointsDebug) {
 
-                if(i < SIM.waypointsIndex) {
-                    ctx.fillStyle = "#32ff00";
+            const waypointLists = SIM.waypointData.waypointLists;
 
-                    if(SIM.waypointsReverse && !(SIM.waypointsIndex-SIM.waypoints.length >= SIM.waypoints.length-i)) {
+            for (let i = 0; i < waypointLists.length; i++) {
+                const wl = waypointLists[i];
+
+                for (let j = 0; j < wl.waypoints.length; j++) {
+                    const wp = wl.waypoints[j];
+
+                    if(wp.forwardsMarker && (wp.backwardsMarker || !SIM.waypointData.waypointsReverse)) {
+                        ctx.fillStyle = "#32ff00";
+                    } else if(wp.forwardsMarker || wp.backwardsMarker) {
                         ctx.fillStyle = "#ff6800";
+                    } else {
+                        ctx.fillStyle = "#ff0000";
                     }
-                } else {
-                    ctx.fillStyle = "#ff0000";
+
+                    ctx.fillRect(wp.x, wp.y, wp.w, wp.h);
+
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "bottom";
+                    ctx.font = "50px ProggyTiny";
+                    ctx.fillStyle = "#FFFFFF";
+
+                    ctx.fillText(j, wp.x + wp.w / 2, wp.y + wp.h / 2 + 10);
                 }
-
-                ctx.fillRect(wp.x, wp.y, wp.w, wp.h);
-
-                ctx.textAlign = "center";
-                ctx.textBaseline = "bottom";
-                ctx.font = "50px ProggyTiny";
-                ctx.fillStyle = "#FFFFFF";
-
-                ctx.fillText(i, wp.x + wp.w/2 ,wp.y + wp.h/2+10);
             }
         }
 
@@ -285,8 +290,8 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 //}
 
                 if(SIM.goal && r == 0) {
-                    $("#notConstantValue").append('<div><label>Goal reached</label><span>' + (SIM.goal.reached ? 'true' : 'false') + '</span></div>');
-                    $("#notConstantValue").append('<div><label>Goal time</label><span>' + UTIL.round(SIM.goal.time, 3) + 's</span></div>');
+                    $("#notConstantValue").append('<div><label>Goal reached</label><span>' + (SIM.goalReached ? 'true' : 'false') + '</span></div>');
+                    $("#notConstantValue").append('<div><label>Goal time</label><span>' + UTIL.round(SIM.goalTime, 3) + 's</span></div>');
                 }
 
                 if (Array.isArray(this.robots[r].touchSensor)) {
@@ -481,7 +486,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
             }
         }
 
-        if(SIM.goal && SIM.goal.reached) {
+        if(SIM.goalReached) {
             this.rCtx.drawImage(this.imgGoal, 10, 10, this.imgGoal.width, this.imgGoal.height)
 
             function drawFancyText(ctx, x, y, text, px) {
@@ -506,11 +511,24 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 ctx.translate(-x, -y);
             }
 
-            const goalMessage = "Goal Reached !!!";
-            drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2-100, goalMessage, 130);
 
-            const timeMessage = "Time: " + UTIL.round(SIM.goal.time, 3) + "s";
-            drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2+50, timeMessage, 130);
+
+            if(SIM.isTimeout) {
+                var goalMessage = "Timeout !!!";
+                drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2-100, goalMessage, 130);
+
+                const scoreMessage = "Score: " + SIM.score;
+                drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2+20, scoreMessage, 130);
+            } else {
+                var goalMessage = "Goal Reached !!!";
+                drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2-160, goalMessage, 130);
+
+                const timeMessage = "Time: " + UTIL.round(SIM.goalTime, 3) + "s";
+                drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2-40, timeMessage, 130);
+
+                const scoreMessage = "Score: " + SIM.score;
+                drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2+80, scoreMessage, 130);
+            }
 
         }
 
@@ -802,42 +820,63 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 return intersect;
             }
 
-            if(SIM.goal) {
-                const goalReached = doesRobotIntersect(this.robots[r], SIM.goal);
+            const waypointLists = SIM.waypointData.waypointLists;
+            if(waypointLists.length !== 0) {
 
-                if(goalReached &&
-                    (!SIM.waypoints ||                                                           // do waypoints exist
-                        (!SIM.waypointsReverse && SIM.waypointsIndex === SIM.waypoints.length || // goal no reverse
-                        (SIM.waypointsReverse && SIM.waypointsIndex === SIM.waypoints.length*2)) // goal reverse
-                    )
-                  )
-                {
-                    this.robots[r].goal = true;
-                    SIM.goal.reached = true;
+                for (let i = 0; i < waypointLists.length; i++) {
+                    const wp = SIM.waypointData.getNextWaypointForList(i); // get next waypoint
+                    if(wp) {
+                        if(wp === "end") {
+                            waypointLists[i].done = true;
+                        } else {
+                            const reachedWaypoint = doesRobotIntersect(this.robots[r], wp);
+                            if (reachedWaypoint) {
+                                waypointLists[i].currentWaypointIdx++;
+
+                                if(wp.score) {
+                                    SIM.score += wp.score;
+                                }
+
+                                if (waypointLists[i].currentWaypointIdx < waypointLists[i].waypoints.length) {
+                                    wp.forwardsMarker = true;
+                                } else {
+                                    wp.backwardsMarker = true;
+                                }
+
+                                const waypoint = SIM.waypointData.getNextWaypointForList(i);
+                                if(waypoint === "end") {
+                                    waypointLists[i].done = true;
+                                }
+
+                                if(SIM.waypointData.waypointsDebug) {
+                                    this.drawBackground();
+                                    this.drawObjects();
+                                }
+                            }
+                        }
+                    }
                 }
-
-                if(running && !SIM.goal.reached) {
-                    this.robots[r].goalTime += SIM.getDt();
+                // prevent from calling onAllWaypointsDone twice
+                if(!SIM.waypointData.enableGoal) {
+                    var done = true;
+                    for (let i = 0; i < waypointLists.length; i++) {
+                        if(!waypointLists[i].done) {
+                            done = false;
+                            break;
+                        }
+                    }
+                    if (done) {
+                        SIM.waypointData.onAllWaypointsDone();
+                    }
                 }
             }
 
-            if(SIM.waypoints) {
+            if(SIM.goal) {
+                const goalReached = doesRobotIntersect(this.robots[r], SIM.goal);
 
-                if(SIM.waypointsDebug) {
-                    this.drawBackground();
-                }
-
-                for (let i = 0; i < SIM.waypoints.length; i++) {
-                    const reachedWaypoint = doesRobotIntersect(this.robots[r], SIM.waypoints[i]);
-
-                    if (reachedWaypoint &&
-                        (i === SIM.waypointsIndex ||
-                            (SIM.waypointsReverse && SIM.waypointsIndex >= SIM.waypoints.length &&
-                                SIM.waypointsIndex < 2*SIM.waypoints.length &&
-                                SIM.waypointsIndex%SIM.waypoints.length === SIM.waypoints.length-i-1))) {
-                        SIM.waypointsIndex ++;
-                        console.log(SIM.waypointsIndex);
-                    }
+                if(goalReached && (!SIM.goalNeedsWaypoint || SIM.waypointData.enableGoal))
+                {
+                    SIM.goalReached = true;
                 }
             }
 
@@ -1041,8 +1080,12 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
         }
 
         // EDIT:
-        if(running && SIM.goal && !SIM.goal.reached) {
-            SIM.goal.time += SIM.getDt();
+        if(running && !SIM.goalReached) {
+            SIM.goalTime += SIM.getDt();
+            if(SIM.timeout > 0 && SIM.goalTime >= SIM.timeout) {
+                SIM.goalReached = true;
+                SIM.isTimeout = true;
+            }
         }
 
     };

@@ -172,6 +172,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         function setBackground(num, callback) {
             if (num == undefined) {
                 setObstacle();
+                setWaypoints();
                 setRuler();
                 removeMouseEvents();
                 if (randomImageObjectList[currentBackground].length !== 0) {
@@ -319,20 +320,14 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         exports.setInfo = setInfo;
 
         function resetGame() {
-            if(exports.goal) {
-                exports.goal.reached = false;
-                exports.goal.time = 0;
-            }
-            for (var i = 0; i < numRobots; i++) {
-                robots[i].resetGoal();
-            }
+            resetScore();
+            resetWaypoints();
 
             if(exports.switches) {
                 for (let i = 0; i < exports.switches.length; i++) {
                     exports.switches[i].pressed = false;
                 }
             }
-            exports.waypointsIndex = 0;
         }
 
         function resetPose() {
@@ -395,69 +390,92 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         var obslist = [ground, obstacle];
         exports.obstacleList = obslist;
         // EDIT:
-        var goal = {
-            time: 0,
-            reached: false
-        };
-        /*{
+        /*var goal = {
             x: 0,
             y: 0,
             w: 100,
             h: 100,
-            color: "#FFFFFF",
-            time: 0,
-            reached: false
+            color: "#FFFFFF"
         };*/
 
-        exports.goal = goal;
+        exports.goal = null; // define goal rect if needed
 
-        exports.waypointsIndex = 0;
-        exports.waypointsReverse = true;
-        exports.waypoints = [
-            {
-                x: 35,
-                y: 235,
-                w: 80,
-                h: 20
+        exports.goalReached = false;
+        exports.goalTime = 0;
+        exports.score = 0;
+
+        // will probably never change
+        exports.goalNeedsWaypoint = true;
+
+        exports.timeout = 1; // set to -1 for infinite time
+        exports.isTimeout = false;
+
+        function resetScore() {
+            exports.score = 0;
+            exports.goalReached = false;
+            exports.goalTime = 0;
+            exports.isTimeout = false;
+        }
+
+
+        // waypoint settings:
+        exports.waypointData = {
+            // this list can be empty
+            waypointLists: [],
+            onAllWaypointsDone: function () {
+                //console.log("All waypoints triggered!!!");
+                if(this.waypointsRainbowMode) {
+                    exports.goalReached = true;
+                }
+                this.enableGoal = true;
             },
-            {
-                x: 165,
-                y: 70,
-                w: 20,
-                h: 80
+            getNextWaypointForList: function(idx) {
+                if(idx >= this.waypointLists.length) {
+                    console.log("Error: no waypoints found!!!");
+                    return null;
+                }
+
+                const wp = this.waypointLists[idx];
+
+                if(wp.currentWaypointIdx < wp.waypoints.length-1) {
+                    return wp.waypoints[wp.currentWaypointIdx+1];
+                } else if(this.waypointsReverse) {
+                    const nextIdx = 2*wp.waypoints.length - wp.currentWaypointIdx - 2;
+                    if(nextIdx >= 0) {
+                        return wp.waypoints[nextIdx];
+                    } else {
+                        return "end";
+                    }
+                } else {
+                    return "end";
+                }
             },
-            {
-                x: 220,
-                y: 250,
-                w: 50,
-                h: 50
-            },
-            {
-                x: 310,
-                y: 415,
-                w: 20,
-                h: 80
-            },
-            {
-                x: 440,
-                y: 300,
-                w: 50,
-                h: 50
-            },
-            {
-                x: 700,
-                y: 280,
-                w: 50,
-                h: 50
-            },
-            {
-                x: 710,
-                y: 30,
-                w: 100,
-                h: 80
+            enableGoal: false,
+
+            // Settings:
+            waypointsRainbowMode: true,
+            // TODO: settings per waypoint?
+            waypointsReverse: true, // forces the player to move the same way backwards
+            waypointsDebug: true
+
+        };
+
+        function resetWaypoints() {
+            const waypointData = exports.waypointData;
+            waypointData.enableGoal = false;
+
+            const waypointLists = waypointData.waypointLists;
+            for (let i = 0; i < waypointLists.length; i++) {
+                const waypoints = waypointLists[i];
+                waypoints.currentWaypointIdx = -1;
+                waypoints.done = false;
+                for (let j = 0; j < waypoints.waypoints.length; j++) {
+                    waypoints.waypoints[j].forwardsMarker = false;
+                    waypoints.waypoints[j].backwardsMarker = false;
+                }
             }
-        ];
-        exports.waypointsDebug = true;
+
+        }
 
         var switches = null;
         /*[
@@ -575,8 +593,6 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     for (var i = 0; i < numRobots; i++) {
                         robots[i].reset();
                         robots[i].resetPose();
-                        // EDIT:
-                        robots[i].resetGoal();
                         readyRobots.push(false);
                         isDownRobots.push(false);
                     }
@@ -588,6 +604,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     pause = true;
                     info = false;
                     setObstacle();
+                    setWaypoints();
                     setRuler();
                     initScene();
 
@@ -1201,6 +1218,74 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 obstacle.h = 0;
                 obstacle.color = null;
                 obstacle.img = null;
+            }
+        }
+
+        function setWaypoints() {
+            exports.waypointData.waypointLists = [];
+            exports.waypointData.waypointsRainbowMode = true;
+            exports.waypointData.waypointsReverse = false;
+            exports.goalNeedsWaypoint = false;
+            exports.timeout = 1; // disable timeout
+
+            switch (currentBackground) {
+                case RR_LineFollowing_ES:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [
+                                {
+                                    x: 35,
+                                    y: 235,
+                                    w: 80,
+                                    h: 20
+                                },
+                                {
+                                    x: 165,
+                                    y: 70,
+                                    w: 20,
+                                    h: 80
+                                },
+                                {
+                                    x: 220,
+                                    y: 250,
+                                    w: 50,
+                                    h: 50
+                                },
+                                {
+                                    x: 310,
+                                    y: 415,
+                                    w: 20,
+                                    h: 80,
+                                    score: 200
+                                },
+                                {
+                                    x: 440,
+                                    y: 300,
+                                    w: 50,
+                                    h: 50
+                                },
+                                {
+                                    x: 700,
+                                    y: 280,
+                                    w: 50,
+                                    h: 50
+                                },
+                                {
+                                    x: 710,
+                                    y: 30,
+                                    w: 100,
+                                    h: 80
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.waypointData.waypointsReverse = false;
+                    exports.goalNeedsWaypoint = true;
+                    break;
+                default:
+                    break;
             }
         }
 
