@@ -403,6 +403,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         exports.goalReached = false;
         exports.goalTime = 0;
         exports.score = 0;
+        exports.addedRemainingTime = false;
 
         // will probably never change
         exports.goalNeedsWaypoint = true;
@@ -418,6 +419,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             exports.goalReached = false;
             exports.goalTime = 0;
             exports.isTimeout = false;
+            exports.addedRemainingTime = false;
         }
 
 
@@ -429,6 +431,10 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 //console.log("All waypoints triggered!!!");
                 if(this.waypointsRainbowMode) {
                     exports.goalReached = true;
+                    if (exports.timeout !== -1 && !exports.addedRemainingTime) {
+                        exports.addedRemainingTime = true;
+                        exports.score += exports.timeout - UTIL.round(exports.goalTime, 1)
+                    }
                 }
                 this.enableGoal = true;
             },
@@ -460,7 +466,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             waypointsRainbowMode: true,
             // TODO: settings per waypoint?
             waypointsReverse: true, // forces the player to move the same way backwards
-            waypointsDebug: true
+            waypointsDebug: false
 
         };
 
@@ -1242,22 +1248,25 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 y: 235,
                                 w: 80,
                                 h: 20,
-                                score: 100
+                                score: 50
                             }, {
                                 x: 165,
                                 y: 70,
                                 w: 20,
-                                h: 80
+                                h: 80,
+                                score: 0
                             }, {
                                 x: 700,
                                 y: 280,
                                 w: 50,
-                                h: 50
+                                h: 50,
+                                score: 50
                             }, {
                                 x: 710,
                                 y: 30,
                                 w: 100,
-                                h: 80
+                                h: 80,
+                                score: 100
                             }],
                             currentWaypointIdx: -1,
                             done: false,
@@ -1265,6 +1274,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     ]
                     exports.waypointData.waypointsReverse = true;
                     exports.goalNeedsWaypoint = true;
+                    exports.timeout = 120;
                     break;
                 case RR_LineFollowing_MS:
                     exports.waypointData.waypointLists = [
@@ -1273,22 +1283,26 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 x: 35,
                                 y: 350,
                                 w: 80,
-                                h: 20
+                                h: 20,
+                                score: 50
                             }, {
                                 x: 400,
                                 y: 400,
                                 w: 50,
-                                h: 50
+                                h: 50,
+                                score: 100
                             }, {
                                 x: 720,
                                 y: 280,
                                 w: 50,
-                                h: 50
+                                h: 50,
+                                score: 0
                             }, {
                                 x: 710,
                                 y: 30,
                                 w: 100,
-                                h: 80
+                                h: 80,
+                                score: 100
                             }],
                             currentWaypointIdx: -1,
                             done: false,
@@ -1296,6 +1310,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     ]
                     exports.waypointData.waypointsReverse = true;
                     exports.goalNeedsWaypoint = true;
+                    exports.timeout = 120;
                     break;
                 case RR_LineFollowing_HS:
                     exports.waypointData.waypointLists = [
@@ -1304,27 +1319,32 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 x: 35,
                                 y: 350,
                                 w: 80,
-                                h: 20
+                                h: 20,
+                                score: 50
                             }, {
                                 x: 400,
                                 y: 400,
                                 w: 50,
-                                h: 50
+                                h: 50,
+                                score: 100
                             }, {
                                 x: 530,
                                 y: 120,
                                 w: 50,
-                                h: 50
+                                h: 50,
+                                score: 100
                             },{
                                 x: 720,
                                 y: 280,
                                 w: 50,
-                                h: 50
+                                h: 50,
+                                score: 0
                             },  {
                                 x: 710,
                                 y: 30,
                                 w: 100,
-                                h: 80
+                                h: 80,
+                                score: 100
                             }],
                             currentWaypointIdx: -1,
                             done: false,
@@ -1332,6 +1352,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     ]
                     exports.waypointData.waypointsReverse = true;
                     exports.goalNeedsWaypoint = true;
+                    exports.timeout = 120;
                     break;
                 case RR_Maze_ES:
                 case RR_Maze_MS:
@@ -1342,87 +1363,104 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     x: 700,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 400,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 400,
                                     y: 100,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 600,
                                     y: 100,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 600,
                                     y: 440,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 300,
                                     y: 440,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 300,
                                     y: 340,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 500,
                                     y: 340,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 500,
                                     y: 200,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 300,
                                     y: 200,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 300,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 200,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 200,
                                     y: 340,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 100,
                                     y: 340,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 100,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 0,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 0,
                                     y: 440,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 }
                             ],
                             currentWaypointIdx: -1,
@@ -1430,6 +1468,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                         }
                     ]
                     exports.goalNeedsWaypoint = true;
+                    exports.timeout = 120;
                     break;
                 case RR_Maze_HS:
                     exports.waypointData.waypointLists = [
@@ -1439,97 +1478,116 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     x: 700,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 500,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 500,
                                     y: 100,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 600,
                                     y: 100,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 600,
                                     y: 440,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 300,
                                     y: 440,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 300,
                                     y: 340,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 500,
                                     y: 340,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 500,
                                     y: 200,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 400,
                                     y: 200,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 400,
                                     y: 100,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 300,
                                     y: 100,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 300,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 200,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 200,
                                     y: 340,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 100,
                                     y: 340,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 100,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 0,
                                     y: 0,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 },{
                                     x: 0,
                                     y: 440,
                                     w: 100,
-                                    h: 100
+                                    h: 100,
+                                    score: 10
                                 }
                             ],
                             currentWaypointIdx: -1,
@@ -1537,6 +1595,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                         }
                     ]
                     exports.goalNeedsWaypoint = true;
+                    exports.timeout = 120;
                     break;
                 case RR_Rainbow_ES:
                 case RR_Rainbow_MS:
@@ -1547,13 +1606,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     x: 270,
                                     y: 250,
                                     w: 40,
-                                    h: 40
+                                    h: 40,
+                                    score: 10
                                 },
                                 {
                                     x: 90,
                                     y: 185,
                                     w: 40,
-                                    h: 40
+                                    h: 40,
+                                    score: 10
                                 }
                             ],
                             currentWaypointIdx: -1,
@@ -1565,13 +1626,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     x: 390,
                                     y: 340,
                                     w: 40,
-                                    h: 40
+                                    h: 40,
+                                    score: 10
                                 },
                                 {
                                     x: 290,
                                     y: 330,
                                     w: 40,
-                                    h: 40
+                                    h: 40,
+                                    score: 10
                                 }
                             ],
                             currentWaypointIdx: -1,
@@ -1583,13 +1646,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     x: 390,
                                     y: 160,
                                     w: 40,
-                                    h: 40
+                                    h: 40,
+                                    score: 10
                                 },
                                 {
                                     x: 750,
                                     y: 180,
                                     w: 40,
-                                    h: 40
+                                    h: 40,
+                                    score: 10
                                 }
                             ],
                             currentWaypointIdx: -1,
@@ -1601,13 +1666,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     x: 485,
                                     y: 250,
                                     w: 40,
-                                    h: 40
+                                    h: 40,
+                                    score: 10
                                 },
                                 {
                                     x: 470,
                                     y: 490,
                                     w: 40,
-                                    h: 40
+                                    h: 40,
+                                    score: 10
                                 }
                             ],
                             currentWaypointIdx: -1,
@@ -1616,6 +1683,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     ]
                     exports.waypointData.waypointsReverse = true;
                     exports.waypointData.waypointsRainbowMode = true;
+                    exports.timeout = 180;
                     exports.rainbowColor = [
                         "#e40303ff",
                         "#ffed00ff",
@@ -1624,9 +1692,129 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     ]
                     break;
                 case RR_Rainbow_HS:
-                    exports.waypointData.waypointLists = []
+                    exports.waypointData.waypointLists = [{
+                        waypoints: [
+                            {
+                                x: 345,
+                                y: 385,
+                                w: 20,
+                                h: 20,
+                                score: 10
+                            },
+                            {
+                                x: 280,
+                                y: 395,
+                                w: 20,
+                                h: 20,
+                                score: 10
+                            }
+                        ],
+                        currentWaypointIdx: -1,
+                        done: false,
+                    },
+                        {
+                            waypoints: [
+                                {
+                                    x: 470,
+                                    y: 363,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                },
+                                {
+                                    x: 475,
+                                    y: 490,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 490,
+                                    y: 265,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                },
+                                {
+                                    x: 700,
+                                    y: 265,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 445,
+                                    y: 175,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                },
+                                {
+                                    x: 565,
+                                    y: 47,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 310,
+                                    y: 175,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                },
+                                {
+                                    x: 382,
+                                    y: 95,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 278,
+                                    y: 263,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                },
+                                {
+                                    x: 34,
+                                    y: 160,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }]
                     exports.waypointData.waypointsReverse = true;
                     exports.waypointData.waypointsRainbowMode = true;
+                    exports.timeout = 240;
                     exports.rainbowColor = [
                         "#e40303ff",
                         "#ff8c00ff",

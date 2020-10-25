@@ -491,6 +491,7 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
         }
 
         if(SIM.goalReached) {
+
             this.rCtx.drawImage(this.imgGoal, 10, 10, this.imgGoal.width, this.imgGoal.height)
 
             function drawFancyText(ctx, x, y, text, px) {
@@ -527,10 +528,11 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 var goalMessage = "Goal Reached !!!";
                 drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2-160, goalMessage, 130);
 
+
                 const timeMessage = "Time: " + UTIL.round(SIM.goalTime, 3) + "s";
                 drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2-40, timeMessage, 130);
 
-                const scoreMessage = "Score: " + SIM.score;
+                const scoreMessage = "Score: " + UTIL.round(SIM.score, 1);
                 drawFancyText(this.rCtx, this.imgGoal.width/2+10, this.imgGoal.height/2+80, scoreMessage, 130);
             }
 
@@ -910,6 +912,10 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 if(goalReached && (!SIM.goalNeedsWaypoint || SIM.waypointData.enableGoal))
                 {
                     SIM.goalReached = true;
+                    if (SIM.timeout !== -1 && !SIM.addedRemainingTime) {
+                        SIM.addedRemainingTime = true;
+                        SIM.score += SIM.timeout - UTIL.round(SIM.goalTime, 1)
+                    }
                 }
             }
 
