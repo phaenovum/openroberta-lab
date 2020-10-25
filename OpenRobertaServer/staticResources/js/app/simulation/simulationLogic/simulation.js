@@ -748,276 +748,6 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             $('#simControl').attr('data-original-title', Blockly.Msg.MENU_SIM_START_TOOLTIP);
         }
 
-        function setWaypoints() {
-            exports.waypoints = null;
-            exports.waypointsIndex = 0;
-            if (currentBackground === RR_LineFollowing_ES) {
-                exports.waypointsReverse = true;
-                exports.waypoints = [{
-                    x: 35,
-                    y: 235,
-                    w: 80,
-                    h: 20
-                }, {
-                    x: 165,
-                    y: 70,
-                    w: 20,
-                    h: 80
-                }, {
-                    x: 700,
-                    y: 280,
-                    w: 50,
-                    h: 50
-                }, {
-                    x: 710,
-                    y: 30,
-                    w: 100,
-                    h: 80
-                }];
-            } else if (currentBackground == RR_LineFollowing_MS) {
-                exports.waypointsReverse = true;
-                exports.waypoints = [{
-                    x: 35,
-                    y: 350,
-                    w: 80,
-                    h: 20
-                }, {
-                    x: 400,
-                    y: 400,
-                    w: 50,
-                    h: 50
-                }, {
-                    x: 720,
-                    y: 280,
-                    w: 50,
-                    h: 50
-                }, {
-                    x: 710,
-                    y: 30,
-                    w: 100,
-                    h: 80
-                }];
-            } else if (currentBackground == RR_LineFollowing_HS) {
-                exports.waypointsReverse = true;
-                exports.waypoints = [{
-                    x: 35,
-                    y: 350,
-                    w: 80,
-                    h: 20
-                }, {
-                    x: 400,
-                    y: 400,
-                    w: 50,
-                    h: 50
-                }, {
-                    x: 530,
-                    y: 120,
-                    w: 50,
-                    h: 50
-                },{
-                    x: 720,
-                    y: 280,
-                    w: 50,
-                    h: 50
-                },  {
-                    x: 710,
-                    y: 30,
-                    w: 100,
-                    h: 80
-                }];
-            } else if (currentBackground == RR_Maze_ES || currentBackground == RR_Maze_MS) {
-                exports.waypointsReverse = false;
-                exports.waypoints = [
-                    {
-                        x: 700,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 400,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 400,
-                        y: 100,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 600,
-                        y: 100,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 600,
-                        y: 440,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 300,
-                        y: 440,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 300,
-                        y: 340,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 500,
-                        y: 340,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 500,
-                        y: 200,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 300,
-                        y: 200,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 300,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 200,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 200,
-                        y: 340,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 100,
-                        y: 340,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 100,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 0,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 0,
-                        y: 440,
-                        w: 100,
-                        h: 100
-                    }
-                ]
-            }else if (currentBackground == RR_Maze_HS) {
-                exports.waypointsReverse = false;
-                exports.waypoints = [
-                    {
-                        x: 700,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 500,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 500,
-                        y: 100,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 600,
-                        y: 100,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 600,
-                        y: 440,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 300,
-                        y: 440,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 300,
-                        y: 340,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 500,
-                        y: 340,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 500,
-                        y: 200,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 400,
-                        y: 200,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 400,
-                        y: 100,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 300,
-                        y: 100,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 300,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 200,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 200,
-                        y: 340,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 100,
-                        y: 340,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 100,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 0,
-                        y: 0,
-                        w: 100,
-                        h: 100
-                    },{
-                        x: 0,
-                        y: 440,
-                        w: 100,
-                        h: 100
-                    }
-                ]
-            }
-        }
-
         function setObstacle() {
 
             // remove old values
@@ -1493,7 +1223,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
 
         function setWaypoints() {
             exports.waypointData.waypointLists = [];
-            exports.waypointData.waypointsRainbowMode = true;
+            exports.waypointData.waypointsRainbowMode = false;
             exports.waypointData.waypointsReverse = false;
             exports.goalNeedsWaypoint = false;
             exports.timeout = 1; // disable timeout
@@ -1502,56 +1232,304 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 case RR_LineFollowing_ES:
                     exports.waypointData.waypointLists = [
                         {
+                            waypoints: [{
+                                x: 35,
+                                y: 235,
+                                w: 80,
+                                h: 20
+                            }, {
+                                x: 165,
+                                y: 70,
+                                w: 20,
+                                h: 80
+                            }, {
+                                x: 700,
+                                y: 280,
+                                w: 50,
+                                h: 50
+                            }, {
+                                x: 710,
+                                y: 30,
+                                w: 100,
+                                h: 80
+                            }],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.waypointData.waypointsReverse = true;
+                    exports.goalNeedsWaypoint = true;
+                    break;
+                case RR_LineFollowing_MS:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [{
+                                x: 35,
+                                y: 350,
+                                w: 80,
+                                h: 20
+                            }, {
+                                x: 400,
+                                y: 400,
+                                w: 50,
+                                h: 50
+                            }, {
+                                x: 720,
+                                y: 280,
+                                w: 50,
+                                h: 50
+                            }, {
+                                x: 710,
+                                y: 30,
+                                w: 100,
+                                h: 80
+                            }],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.waypointData.waypointsReverse = true;
+                    exports.goalNeedsWaypoint = true;
+                    break;
+                case RR_LineFollowing_HS:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [{
+                                x: 35,
+                                y: 350,
+                                w: 80,
+                                h: 20
+                            }, {
+                                x: 400,
+                                y: 400,
+                                w: 50,
+                                h: 50
+                            }, {
+                                x: 530,
+                                y: 120,
+                                w: 50,
+                                h: 50
+                            },{
+                                x: 720,
+                                y: 280,
+                                w: 50,
+                                h: 50
+                            },  {
+                                x: 710,
+                                y: 30,
+                                w: 100,
+                                h: 80
+                            }],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.waypointData.waypointsReverse = true;
+                    exports.goalNeedsWaypoint = true;
+                    break;
+                case RR_Maze_ES:
+                case RR_Maze_MS:
+                    exports.waypointData.waypointLists = [
+                        {
                             waypoints: [
                                 {
-                                    x: 35,
-                                    y: 235,
-                                    w: 80,
-                                    h: 20
-                                },
-                                {
-                                    x: 165,
-                                    y: 70,
-                                    w: 20,
-                                    h: 80
-                                },
-                                {
-                                    x: 220,
-                                    y: 250,
-                                    w: 50,
-                                    h: 50
-                                },
-                                {
-                                    x: 310,
-                                    y: 415,
-                                    w: 20,
-                                    h: 80,
-                                    score: 200
-                                },
-                                {
-                                    x: 440,
-                                    y: 300,
-                                    w: 50,
-                                    h: 50
-                                },
-                                {
                                     x: 700,
-                                    y: 280,
-                                    w: 50,
-                                    h: 50
-                                },
-                                {
-                                    x: 710,
-                                    y: 30,
+                                    y: 0,
                                     w: 100,
-                                    h: 80
+                                    h: 100
+                                },{
+                                    x: 400,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 400,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 600,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 600,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 300,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 300,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 500,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 500,
+                                    y: 200,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 300,
+                                    y: 200,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 300,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 200,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 200,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 100,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 100,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 0,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 0,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100
                                 }
                             ],
                             currentWaypointIdx: -1,
                             done: false,
                         }
                     ]
-                    exports.waypointData.waypointsReverse = false;
+                    exports.goalNeedsWaypoint = true;
+                    break;
+                case RR_Maze_HS:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [
+                                {
+                                    x: 700,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 500,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 500,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 600,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 600,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 300,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 300,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 500,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 500,
+                                    y: 200,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 400,
+                                    y: 200,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 400,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 300,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 300,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 200,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 200,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 100,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 100,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 0,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100
+                                },{
+                                    x: 0,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
                     exports.goalNeedsWaypoint = true;
                     break;
                 default:
