@@ -126,21 +126,25 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                     const wp = wl.waypoints[j];
 
                     if(wp.forwardsMarker && (wp.backwardsMarker || !SIM.waypointData.waypointsReverse)) {
-                        ctx.fillStyle = "#32ff00";
+                        //ctx.fillStyle = "#32ff00";
+                        ctx.strokeStyle = "#32ff00";
                     } else if(wp.forwardsMarker || wp.backwardsMarker) {
-                        ctx.fillStyle = "#ff6800";
+                        //ctx.fillStyle = "#ff6800";
+                        ctx.strokeStyle = "#ff6800";
                     } else {
-                        ctx.fillStyle = "#ff0000";
+                        //ctx.fillStyle = "#ff0000";
+                        ctx.strokeStyle = "#ff0000";
                     }
 
-                    ctx.fillRect(wp.x, wp.y, wp.w, wp.h);
+                    //ctx.fillRect(wp.x, wp.y, wp.w, wp.h);
+                    ctx.strokeRect(wp.x, wp.y, wp.w, wp.h);
 
                     ctx.textAlign = "center";
                     ctx.textBaseline = "bottom";
                     ctx.font = "50px ProggyTiny";
-                    ctx.fillStyle = "#FFFFFF";
+                    ctx.fillStyle = "#000000";
 
-                    ctx.fillText(j, wp.x + wp.w / 2, wp.y + wp.h / 2 + 10);
+                    ctx.fillText(j, wp.x-5, wp.y + wp.h / 2 + 10);
                 }
             }
         }
@@ -830,27 +834,56 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                             waypointLists[i].done = true;
                         } else {
                             const reachedWaypoint = doesRobotIntersect(this.robots[r], wp);
+
                             if (reachedWaypoint) {
-                                waypointLists[i].currentWaypointIdx++;
 
-                                if(wp.score) {
-                                    SIM.score += wp.score;
-                                }
+                                var wpCheck = false;
 
-                                if (waypointLists[i].currentWaypointIdx < waypointLists[i].waypoints.length) {
-                                    wp.forwardsMarker = true;
+                                if(SIM.waypointData.waypointsRainbowMode)
+                                {
+                                    const color = this.uCtx.getImageData(Math.round(wp.x + wp.w/2), Math.round(wp.y + wp.h/2), 1, 1);
+
+                                    function componentToHex(c) {
+                                        var hex = c.toString(16);
+                                        return hex.length === 1 ? "0" + hex : hex;
+                                    }
+
+                                    function rgbToHex(r, g, b) {
+                                        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+                                    }
+
+                                    if(SIM.waypointData.colorIdx < SIM.rainbowColor.length && SIM.rainbowColor[SIM.waypointData.colorIdx].startsWith(rgbToHex(color.data[0], color.data[1], color.data[2]))) {
+                                        wpCheck = true;
+                                    }
                                 } else {
-                                    wp.backwardsMarker = true;
+                                    wpCheck = true;
                                 }
 
-                                const waypoint = SIM.waypointData.getNextWaypointForList(i);
-                                if(waypoint === "end") {
-                                    waypointLists[i].done = true;
-                                }
+                                if(wpCheck) {
+                                    waypointLists[i].currentWaypointIdx++;
 
-                                if(SIM.waypointData.waypointsDebug) {
-                                    this.drawBackground();
-                                    this.drawObjects();
+                                    if (wp.score) {
+                                        SIM.score += wp.score;
+                                    }
+
+                                    if (waypointLists[i].currentWaypointIdx < waypointLists[i].waypoints.length) {
+                                        wp.forwardsMarker = true;
+                                    } else {
+                                        wp.backwardsMarker = true;
+                                    }
+
+                                    const waypoint = SIM.waypointData.getNextWaypointForList(i);
+                                    if (waypoint === "end") {
+                                        waypointLists[i].done = true;
+                                        if (SIM.waypointData.waypointsRainbowMode) {
+                                            SIM.waypointData.colorIdx++;
+                                        }
+                                    }
+
+                                    if (SIM.waypointData.waypointsDebug) {
+                                        this.drawBackground();
+                                        this.drawObjects();
+                                    }
                                 }
                             }
                         }

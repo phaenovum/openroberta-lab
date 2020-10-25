@@ -411,7 +411,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         exports.isTimeout = false;
 
 
-        SIM.rainbowColor = []
+        exports.rainbowColor = []
 
         function resetScore() {
             exports.score = 0;
@@ -454,6 +454,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 }
             },
             enableGoal: false,
+            colorIdx: 0,
 
             // Settings:
             waypointsRainbowMode: true,
@@ -466,6 +467,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         function resetWaypoints() {
             const waypointData = exports.waypointData;
             waypointData.enableGoal = false;
+            waypointData.colorIdx = 0;
 
             const waypointLists = waypointData.waypointLists;
             for (let i = 0; i < waypointLists.length; i++) {
@@ -1239,7 +1241,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 x: 35,
                                 y: 235,
                                 w: 80,
-                                h: 20
+                                h: 20,
+                                score: 100
                             }, {
                                 x: 165,
                                 y: 70,
@@ -1536,6 +1539,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     exports.goalNeedsWaypoint = true;
                     break;
                 case RR_Rainbow_ES:
+                case RR_Rainbow_MS:
                     exports.waypointData.waypointLists = [
                         {
                             waypoints: [
@@ -1612,6 +1616,25 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     ]
                     exports.waypointData.waypointsReverse = true;
                     exports.waypointData.waypointsRainbowMode = true;
+                    exports.rainbowColor = [
+                        "#e40303ff",
+                        "#ffed00ff",
+                        "#008026ff",
+                        "#004dffff"
+                    ]
+                    break;
+                case RR_Rainbow_HS:
+                    exports.waypointData.waypointLists = []
+                    exports.waypointData.waypointsReverse = true;
+                    exports.waypointData.waypointsRainbowMode = true;
+                    exports.rainbowColor = [
+                        "#e40303ff",
+                        "#ff8c00ff",
+                        "#ffed00ff",
+                        "#008026ff",
+                        "#004dffff",
+                        "#750787ff"
+                    ]
                     break;
                 default:
                     break;
