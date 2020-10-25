@@ -410,6 +410,9 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         exports.timeout = 1; // set to -1 for infinite time
         exports.isTimeout = false;
 
+
+        SIM.rainbowColor = []
+
         function resetScore() {
             exports.score = 0;
             exports.goalReached = false;
@@ -1226,7 +1229,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             exports.waypointData.waypointsRainbowMode = false;
             exports.waypointData.waypointsReverse = false;
             exports.goalNeedsWaypoint = false;
-            exports.timeout = 1; // disable timeout
+            exports.timeout = -1; // disable timeout
 
             switch (currentBackground) {
                 case RR_LineFollowing_ES:
@@ -1531,6 +1534,84 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                         }
                     ]
                     exports.goalNeedsWaypoint = true;
+                    break;
+                case RR_Rainbow_ES:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [
+                                {
+                                    x: 270,
+                                    y: 250,
+                                    w: 40,
+                                    h: 40
+                                },
+                                {
+                                    x: 90,
+                                    y: 185,
+                                    w: 40,
+                                    h: 40
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 390,
+                                    y: 340,
+                                    w: 40,
+                                    h: 40
+                                },
+                                {
+                                    x: 290,
+                                    y: 330,
+                                    w: 40,
+                                    h: 40
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 390,
+                                    y: 160,
+                                    w: 40,
+                                    h: 40
+                                },
+                                {
+                                    x: 750,
+                                    y: 180,
+                                    w: 40,
+                                    h: 40
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 485,
+                                    y: 250,
+                                    w: 40,
+                                    h: 40
+                                },
+                                {
+                                    x: 470,
+                                    y: 490,
+                                    w: 40,
+                                    h: 40
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.waypointData.waypointsReverse = true;
+                    exports.waypointData.waypointsRainbowMode = true;
                     break;
                 default:
                     break;
