@@ -44,15 +44,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             '/js/app/simulation/simBackgrounds/drawBackground.svg', '/js/app/simulation/simBackgrounds/robertaBackground.svg',
             '/js/app/simulation/simBackgrounds/rescueBackground.svg', '/js/app/simulation/simBackgrounds/wroBackground.svg',
             '/js/app/simulation/simBackgrounds/mathBackground.svg',
-	    '/js/app/simulation/simBackgrounds/roborave/line-following/es/linefollowing.svg',
+            '/js/app/simulation/simBackgrounds/roborave/line-following/es/linefollowing.svg',
             '/js/app/simulation/simBackgrounds/roborave/line-following/ms/linefollowing.svg',
-	    '/js/app/simulation/simBackgrounds/roborave/line-following/hs/linefollowing.svg',
+            '/js/app/simulation/simBackgrounds/roborave/line-following/hs/linefollowing.svg',
             '/js/app/simulation/simBackgrounds/roborave/labyrinth/es/labyrinth.svg',
-	    '/js/app/simulation/simBackgrounds/roborave/labyrinth/ms/labyrinth.svg',
+            '/js/app/simulation/simBackgrounds/roborave/labyrinth/ms/labyrinth.svg',
             '/js/app/simulation/simBackgrounds/roborave/labyrinth/hs/labyrinth.svg',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.svg',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.svg',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.svg'
+            '/js/app/simulation/simBackgrounds/dummyBackground.svg',
+            '/js/app/simulation/simBackgrounds/dummyBackground.svg',
+            '/js/app/simulation/simBackgrounds/dummyBackground.svg'
         ];
         var imgListIE = ['/js/app/simulation/simBackgrounds/baustelle.png', '/js/app/simulation/simBackgrounds/ruler.png',
             '/js/app/simulation/simBackgrounds/wallPattern.png', '/js/app/simulation/simBackgrounds/calliopeBackground.png',
@@ -60,18 +60,18 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             '/js/app/simulation/simBackgrounds/drawBackground.png', '/js/app/simulation/simBackgrounds/robertaBackground.png',
             '/js/app/simulation/simBackgrounds/rescueBackground.png', '/js/app/simulation/simBackgrounds/wroBackground.png',
             '/js/app/simulation/simBackgrounds/mathBackground.png',
-	    '/js/app/simulation/simBackgrounds/roborave/line-following/es/linefollowing.png',
+            '/js/app/simulation/simBackgrounds/roborave/line-following/es/linefollowing.png',
             '/js/app/simulation/simBackgrounds/roborave/line-following/ms/linefollowing.png',
-	    '/js/app/simulation/simBackgrounds/roborave/line-following/hs/linefollowing.png',
+            '/js/app/simulation/simBackgrounds/roborave/line-following/hs/linefollowing.png',
             '/js/app/simulation/simBackgrounds/roborave/labyrinth/es/labyrinth.png',
-	    '/js/app/simulation/simBackgrounds/roborave/labyrinth/ms/labyrinth.png',
+            '/js/app/simulation/simBackgrounds/roborave/labyrinth/ms/labyrinth.png',
             '/js/app/simulation/simBackgrounds/roborave/labyrinth/hs/labyrinth.png',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.png',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.png',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.png'
+            '/js/app/simulation/simBackgrounds/dummyBackground.png',
+            '/js/app/simulation/simBackgrounds/dummyBackground.png',
+            '/js/app/simulation/simBackgrounds/dummyBackground.png'
         ];
         // [] -> dummys for scenes without random Images
-        var randomImageList = [[], [], [], [], [], [], [], [], [], [], [], [], [],[], ['/js/app/simulation/simBackgrounds/roborave/rainbow/es/dino.svg','/js/app/simulation/simBackgrounds/roborave/rainbow/es/rainbow.svg'],
+        var randomImageList = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], ['/js/app/simulation/simBackgrounds/roborave/rainbow/es/dino.svg', '/js/app/simulation/simBackgrounds/roborave/rainbow/es/rainbow.svg'],
             ['/js/app/simulation/simBackgrounds/roborave/rainbow/ms/'],
             ['/js/app/simulation/simBackgrounds/roborave/rainbow/hs/']]
         var randomImageListIE = []
@@ -98,15 +98,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             }
             let i;
             hs_dir = randomImageList[RR_Rainbow_HS][0];
-            for (i = 0; i < 256; i++){
-                randomImageList[RR_Rainbow_HS][i] = hs_dir+ "space_invaders_" + i.toString()+ ".svg";
+            for (i = 0; i < 256; i++) {
+                randomImageList[RR_Rainbow_HS][i] = hs_dir + "space_invaders_" + i.toString() + ".svg";
             }
             ms_dir = randomImageList[RR_Rainbow_MS][0];
-            for (i = 0; i < 24; i++){
-                randomImageList[RR_Rainbow_MS][i] = ms_dir+ "dino_" + i.toString()+ ".svg";
+            for (i = 0; i < 24; i++) {
+                randomImageList[RR_Rainbow_MS][i] = ms_dir + "dino_" + i.toString() + ".svg";
             }
-            for (i = 0; i < 24; i++){
-                randomImageList[RR_Rainbow_MS][i+24] = ms_dir+ "rainbow_" + i.toString()+ ".svg";
+            for (i = 0; i < 24; i++) {
+                randomImageList[RR_Rainbow_MS][i + 24] = ms_dir + "rainbow_" + i.toString() + ".svg";
             }
             for (i = 0; i < imgList.length; i++) {
                 if (i === 0) {
@@ -323,7 +323,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             resetScore();
             resetWaypoints();
 
-            if(exports.switches) {
+            if (exports.switches) {
                 for (let i = 0; i < exports.switches.length; i++) {
                     exports.switches[i].pressed = false;
                 }
@@ -746,6 +746,276 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             $('.simForward').addClass('typcn-media-play');
             $('#simControl').addClass('typcn-media-play-outline').removeClass('typcn-media-stop');
             $('#simControl').attr('data-original-title', Blockly.Msg.MENU_SIM_START_TOOLTIP);
+        }
+
+        function setWaypoints() {
+            exports.waypoints = null;
+            exports.waypointsIndex = 0;
+            if (currentBackground === RR_LineFollowing_ES) {
+                exports.waypointsReverse = true;
+                exports.waypoints = [{
+                    x: 35,
+                    y: 235,
+                    w: 80,
+                    h: 20
+                }, {
+                    x: 165,
+                    y: 70,
+                    w: 20,
+                    h: 80
+                }, {
+                    x: 700,
+                    y: 280,
+                    w: 50,
+                    h: 50
+                }, {
+                    x: 710,
+                    y: 30,
+                    w: 100,
+                    h: 80
+                }];
+            } else if (currentBackground == RR_LineFollowing_MS) {
+                exports.waypointsReverse = true;
+                exports.waypoints = [{
+                    x: 35,
+                    y: 350,
+                    w: 80,
+                    h: 20
+                }, {
+                    x: 400,
+                    y: 400,
+                    w: 50,
+                    h: 50
+                }, {
+                    x: 720,
+                    y: 280,
+                    w: 50,
+                    h: 50
+                }, {
+                    x: 710,
+                    y: 30,
+                    w: 100,
+                    h: 80
+                }];
+            } else if (currentBackground == RR_LineFollowing_HS) {
+                exports.waypointsReverse = true;
+                exports.waypoints = [{
+                    x: 35,
+                    y: 350,
+                    w: 80,
+                    h: 20
+                }, {
+                    x: 400,
+                    y: 400,
+                    w: 50,
+                    h: 50
+                }, {
+                    x: 530,
+                    y: 120,
+                    w: 50,
+                    h: 50
+                },{
+                    x: 720,
+                    y: 280,
+                    w: 50,
+                    h: 50
+                },  {
+                    x: 710,
+                    y: 30,
+                    w: 100,
+                    h: 80
+                }];
+            } else if (currentBackground == RR_Maze_ES || currentBackground == RR_Maze_MS) {
+                exports.waypointsReverse = false;
+                exports.waypoints = [
+                    {
+                        x: 700,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 400,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 400,
+                        y: 100,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 600,
+                        y: 100,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 600,
+                        y: 440,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 300,
+                        y: 440,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 300,
+                        y: 340,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 500,
+                        y: 340,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 500,
+                        y: 200,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 300,
+                        y: 200,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 300,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 200,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 200,
+                        y: 340,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 100,
+                        y: 340,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 100,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 0,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 0,
+                        y: 440,
+                        w: 100,
+                        h: 100
+                    }
+                ]
+            }else if (currentBackground == RR_Maze_HS) {
+                exports.waypointsReverse = false;
+                exports.waypoints = [
+                    {
+                        x: 700,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 500,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 500,
+                        y: 100,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 600,
+                        y: 100,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 600,
+                        y: 440,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 300,
+                        y: 440,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 300,
+                        y: 340,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 500,
+                        y: 340,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 500,
+                        y: 200,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 400,
+                        y: 200,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 400,
+                        y: 100,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 300,
+                        y: 100,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 300,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 200,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 200,
+                        y: 340,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 100,
+                        y: 340,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 100,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 0,
+                        y: 0,
+                        w: 100,
+                        h: 100
+                    },{
+                        x: 0,
+                        y: 440,
+                        w: 100,
+                        h: 100
+                    }
+                ]
+            }
         }
 
         function setObstacle() {
@@ -1288,7 +1558,6 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     break;
             }
         }
-
 
 
         function setRuler() {
