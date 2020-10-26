@@ -329,6 +329,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 }
             }
         }
+        exports.resetGame = resetGame;
 
         function resetPose() {
             for (var i = 0; i < numRobots; i++) {
@@ -359,7 +360,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 addMouseEvents();
             }, 205);
 
-            //resetGame();
+            resetGame();
         }
 
         exports.stopProgram = stopProgram;
@@ -1147,7 +1148,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     reached: false
                 };
             } else if (currentBackground === RR_Rainbow_ES || currentBackground === RR_Rainbow_MS) {
-                obstacle.x = 310;
+                obstacle.x = 290;
                 obstacle.y = 340;
                 obstacle.w = 25;
                 obstacle.h = 40;
@@ -1263,7 +1264,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 score: 50
                             }, {
                                 x: 710,
-                                y: 30,
+                                y: 40,
                                 w: 100,
                                 h: 80,
                                 score: 100
@@ -1299,7 +1300,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 score: 0
                             }, {
                                 x: 710,
-                                y: 30,
+                                y: 40,
                                 w: 100,
                                 h: 80,
                                 score: 100
@@ -1341,7 +1342,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 score: 0
                             },  {
                                 x: 710,
-                                y: 30,
+                                y: 40,
                                 w: 100,
                                 h: 80,
                                 score: 100
@@ -1630,7 +1631,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     score: 10
                                 },
                                 {
-                                    x: 290,
+                                    x: 270,
                                     y: 330,
                                     w: 40,
                                     h: 40,
