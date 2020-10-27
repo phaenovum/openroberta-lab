@@ -44,15 +44,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             '/js/app/simulation/simBackgrounds/drawBackground.svg', '/js/app/simulation/simBackgrounds/robertaBackground.svg',
             '/js/app/simulation/simBackgrounds/rescueBackground.svg', '/js/app/simulation/simBackgrounds/wroBackground.svg',
             '/js/app/simulation/simBackgrounds/mathBackground.svg',
-	    '/js/app/simulation/simBackgrounds/roborave/line-following/es/linefollowing.svg',
+            '/js/app/simulation/simBackgrounds/roborave/line-following/es/linefollowing.svg',
             '/js/app/simulation/simBackgrounds/roborave/line-following/ms/linefollowing.svg',
-	    '/js/app/simulation/simBackgrounds/roborave/line-following/hs/linefollowing.svg',
+            '/js/app/simulation/simBackgrounds/roborave/line-following/hs/linefollowing.svg',
             '/js/app/simulation/simBackgrounds/roborave/labyrinth/es/labyrinth.svg',
-	    '/js/app/simulation/simBackgrounds/roborave/labyrinth/ms/labyrinth.svg',
+            '/js/app/simulation/simBackgrounds/roborave/labyrinth/ms/labyrinth.svg',
             '/js/app/simulation/simBackgrounds/roborave/labyrinth/hs/labyrinth.svg',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.svg',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.svg',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.svg'
+            '/js/app/simulation/simBackgrounds/dummyBackground.svg',
+            '/js/app/simulation/simBackgrounds/dummyBackground.svg',
+            '/js/app/simulation/simBackgrounds/dummyBackground.svg'
         ];
         var imgListIE = ['/js/app/simulation/simBackgrounds/baustelle.png', '/js/app/simulation/simBackgrounds/ruler.png',
             '/js/app/simulation/simBackgrounds/wallPattern.png', '/js/app/simulation/simBackgrounds/calliopeBackground.png',
@@ -60,18 +60,18 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             '/js/app/simulation/simBackgrounds/drawBackground.png', '/js/app/simulation/simBackgrounds/robertaBackground.png',
             '/js/app/simulation/simBackgrounds/rescueBackground.png', '/js/app/simulation/simBackgrounds/wroBackground.png',
             '/js/app/simulation/simBackgrounds/mathBackground.png',
-	    '/js/app/simulation/simBackgrounds/roborave/line-following/es/linefollowing.png',
+            '/js/app/simulation/simBackgrounds/roborave/line-following/es/linefollowing.png',
             '/js/app/simulation/simBackgrounds/roborave/line-following/ms/linefollowing.png',
-	    '/js/app/simulation/simBackgrounds/roborave/line-following/hs/linefollowing.png',
+            '/js/app/simulation/simBackgrounds/roborave/line-following/hs/linefollowing.png',
             '/js/app/simulation/simBackgrounds/roborave/labyrinth/es/labyrinth.png',
-	    '/js/app/simulation/simBackgrounds/roborave/labyrinth/ms/labyrinth.png',
+            '/js/app/simulation/simBackgrounds/roborave/labyrinth/ms/labyrinth.png',
             '/js/app/simulation/simBackgrounds/roborave/labyrinth/hs/labyrinth.png',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.png',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.png',
-	    '/js/app/simulation/simBackgrounds/dummyBackground.png'
+            '/js/app/simulation/simBackgrounds/dummyBackground.png',
+            '/js/app/simulation/simBackgrounds/dummyBackground.png',
+            '/js/app/simulation/simBackgrounds/dummyBackground.png'
         ];
         // [] -> dummys for scenes without random Images
-        var randomImageList = [[], [], [], [], [], [], [], [], [], [], [], [], [],[], ['/js/app/simulation/simBackgrounds/roborave/rainbow/es/dino.svg','/js/app/simulation/simBackgrounds/roborave/rainbow/es/rainbow.svg'],
+        var randomImageList = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], ['/js/app/simulation/simBackgrounds/roborave/rainbow/es/dino.svg', '/js/app/simulation/simBackgrounds/roborave/rainbow/es/rainbow.svg'],
             ['/js/app/simulation/simBackgrounds/roborave/rainbow/ms/'],
             ['/js/app/simulation/simBackgrounds/roborave/rainbow/hs/']]
         var randomImageListIE = []
@@ -98,15 +98,15 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             }
             let i;
             hs_dir = randomImageList[RR_Rainbow_HS][0];
-            for (i = 0; i < 256; i++){
-                randomImageList[RR_Rainbow_HS][i] = hs_dir+ "space_invaders_" + i.toString()+ ".svg";
+            for (i = 0; i < 256; i++) {
+                randomImageList[RR_Rainbow_HS][i] = hs_dir + "space_invaders_" + i.toString() + ".svg";
             }
             ms_dir = randomImageList[RR_Rainbow_MS][0];
-            for (i = 0; i < 24; i++){
-                randomImageList[RR_Rainbow_MS][i] = ms_dir+ "dino_" + i.toString()+ ".svg";
+            for (i = 0; i < 24; i++) {
+                randomImageList[RR_Rainbow_MS][i] = ms_dir + "dino_" + i.toString() + ".svg";
             }
-            for (i = 0; i < 24; i++){
-                randomImageList[RR_Rainbow_MS][i+24] = ms_dir+ "rainbow_" + i.toString()+ ".svg";
+            for (i = 0; i < 24; i++) {
+                randomImageList[RR_Rainbow_MS][i + 24] = ms_dir + "rainbow_" + i.toString() + ".svg";
             }
             for (i = 0; i < imgList.length; i++) {
                 if (i === 0) {
@@ -172,6 +172,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         function setBackground(num, callback) {
             if (num == undefined) {
                 setObstacle();
+                setWaypoints();
                 setRuler();
                 removeMouseEvents();
                 if (randomImageObjectList[currentBackground].length !== 0) {
@@ -319,13 +320,16 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         exports.setInfo = setInfo;
 
         function resetGame() {
-            exports.goal.reached = false;
-            exports.goal.time = 0;
-            for (var i = 0; i < numRobots; i++) {
-                robots[i].resetGoal();
+            resetScore();
+            resetWaypoints();
+
+            if (exports.switches) {
+                for (let i = 0; i < exports.switches.length; i++) {
+                    exports.switches[i].pressed = false;
+                }
             }
-            // TODO: reset switches
         }
+        exports.resetGame = resetGame;
 
         function resetPose() {
             for (var i = 0; i < numRobots; i++) {
@@ -356,7 +360,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 addMouseEvents();
             }, 205);
 
-            //resetGame();
+            resetGame();
         }
 
         exports.stopProgram = stopProgram;
@@ -387,21 +391,103 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         var obslist = [ground, obstacle];
         exports.obstacleList = obslist;
         // EDIT:
-        var goal = {
-            time: 0,
-            reached: false
-        };
-        /*{
+        /*var goal = {
             x: 0,
             y: 0,
             w: 100,
             h: 100,
-            color: "#FFFFFF",
-            time: 0,
-            reached: false
+            color: "#FFFFFF"
         };*/
 
-        exports.goal = goal;
+        exports.goal = null; // define goal rect if needed
+
+        exports.goalReached = false;
+        exports.goalTime = 0;
+        exports.score = 0;
+        exports.addedRemainingTime = false;
+
+        // will probably never change
+        exports.goalNeedsWaypoint = true;
+
+        exports.timeout = 1; // set to -1 for infinite time
+        exports.isTimeout = false;
+
+
+        exports.rainbowColor = []
+
+        function resetScore() {
+            exports.score = 0;
+            exports.goalReached = false;
+            exports.goalTime = 0;
+            exports.isTimeout = false;
+            exports.addedRemainingTime = false;
+        }
+
+
+        // waypoint settings:
+        exports.waypointData = {
+            // this list can be empty
+            waypointLists: [],
+            onAllWaypointsDone: function () {
+                //console.log("All waypoints triggered!!!");
+                if(this.waypointsRainbowMode) {
+                    exports.goalReached = true;
+                    if (exports.timeout !== -1 && !exports.addedRemainingTime) {
+                        exports.addedRemainingTime = true;
+                        exports.score += exports.timeout - UTIL.round(exports.goalTime, 1)
+                    }
+                }
+                this.enableGoal = true;
+            },
+            getNextWaypointForList: function(idx) {
+                if(idx >= this.waypointLists.length) {
+                    console.log("Error: no waypoints found!!!");
+                    return null;
+                }
+
+                const wp = this.waypointLists[idx];
+
+                if(wp.currentWaypointIdx < wp.waypoints.length-1) {
+                    return wp.waypoints[wp.currentWaypointIdx+1];
+                } else if(this.waypointsReverse) {
+                    const nextIdx = 2*wp.waypoints.length - wp.currentWaypointIdx - 2;
+                    if(nextIdx >= 0) {
+                        return wp.waypoints[nextIdx];
+                    } else {
+                        return "end";
+                    }
+                } else {
+                    return "end";
+                }
+            },
+            enableGoal: false,
+            colorIdx: 0,
+
+            // Settings:
+            waypointsRainbowMode: true,
+            // TODO: settings per waypoint?
+            waypointsReverse: true, // forces the player to move the same way backwards
+            waypointsDebug: false
+
+        };
+
+        function resetWaypoints() {
+            const waypointData = exports.waypointData;
+            waypointData.enableGoal = false;
+            waypointData.colorIdx = 0;
+
+            const waypointLists = waypointData.waypointLists;
+            for (let i = 0; i < waypointLists.length; i++) {
+                const waypoints = waypointLists[i];
+                waypoints.currentWaypointIdx = -1;
+                waypoints.done = false;
+                for (let j = 0; j < waypoints.waypoints.length; j++) {
+                    waypoints.waypoints[j].forwardsMarker = false;
+                    waypoints.waypoints[j].backwardsMarker = false;
+                }
+            }
+
+        }
 
         var switches = null;
         /*[
@@ -519,8 +605,6 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     for (var i = 0; i < numRobots; i++) {
                         robots[i].reset();
                         robots[i].resetPose();
-                        // EDIT:
-                        robots[i].resetGoal();
                         readyRobots.push(false);
                         isDownRobots.push(false);
                     }
@@ -532,6 +616,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     pause = true;
                     info = false;
                     setObstacle();
+                    setWaypoints();
                     setRuler();
                     initScene();
 
@@ -1063,7 +1148,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     reached: false
                 };
             } else if (currentBackground === RR_Rainbow_ES || currentBackground === RR_Rainbow_MS) {
-                obstacle.x = 310;
+                obstacle.x = 290;
                 obstacle.y = 340;
                 obstacle.w = 25;
                 obstacle.h = 40;
@@ -1148,6 +1233,602 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             }
         }
 
+        function setWaypoints() {
+            exports.waypointData.waypointLists = [];
+            exports.waypointData.waypointsRainbowMode = false;
+            exports.waypointData.waypointsReverse = false;
+            exports.goalNeedsWaypoint = false;
+            exports.timeout = -1; // disable timeout
+
+            switch (currentBackground) {
+                case RR_LineFollowing_ES:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [{
+                                x: 35,
+                                y: 235,
+                                w: 80,
+                                h: 20,
+                                score: 50
+                            }, {
+                                x: 165,
+                                y: 70,
+                                w: 20,
+                                h: 80,
+                                score: 0
+                            }, {
+                                x: 700,
+                                y: 280,
+                                w: 50,
+                                h: 50,
+                                score: 50
+                            }, {
+                                x: 710,
+                                y: 40,
+                                w: 100,
+                                h: 80,
+                                score: 100
+                            }],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.waypointData.waypointsReverse = true;
+                    exports.goalNeedsWaypoint = true;
+                    exports.timeout = 120;
+                    break;
+                case RR_LineFollowing_MS:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [{
+                                x: 35,
+                                y: 350,
+                                w: 80,
+                                h: 20,
+                                score: 50
+                            }, {
+                                x: 400,
+                                y: 400,
+                                w: 50,
+                                h: 50,
+                                score: 100
+                            }, {
+                                x: 720,
+                                y: 280,
+                                w: 50,
+                                h: 50,
+                                score: 0
+                            }, {
+                                x: 710,
+                                y: 40,
+                                w: 100,
+                                h: 80,
+                                score: 100
+                            }],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.waypointData.waypointsReverse = true;
+                    exports.goalNeedsWaypoint = true;
+                    exports.timeout = 120;
+                    break;
+                case RR_LineFollowing_HS:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [{
+                                x: 35,
+                                y: 350,
+                                w: 80,
+                                h: 20,
+                                score: 50
+                            }, {
+                                x: 400,
+                                y: 400,
+                                w: 50,
+                                h: 50,
+                                score: 100
+                            }, {
+                                x: 530,
+                                y: 120,
+                                w: 50,
+                                h: 50,
+                                score: 100
+                            },{
+                                x: 720,
+                                y: 280,
+                                w: 50,
+                                h: 50,
+                                score: 0
+                            },  {
+                                x: 710,
+                                y: 40,
+                                w: 100,
+                                h: 80,
+                                score: 100
+                            }],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.waypointData.waypointsReverse = true;
+                    exports.goalNeedsWaypoint = true;
+                    exports.timeout = 120;
+                    break;
+                case RR_Maze_ES:
+                case RR_Maze_MS:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [
+                                {
+                                    x: 700,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 400,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 400,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 600,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 600,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 300,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 300,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 500,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 500,
+                                    y: 200,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 300,
+                                    y: 200,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 300,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 200,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 200,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 100,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 100,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 0,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 0,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.goalNeedsWaypoint = true;
+                    exports.timeout = 120;
+                    break;
+                case RR_Maze_HS:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [
+                                {
+                                    x: 700,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 500,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 500,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 600,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 600,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 300,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 300,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 500,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 500,
+                                    y: 200,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 400,
+                                    y: 200,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 400,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 300,
+                                    y: 100,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 300,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 200,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 200,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 100,
+                                    y: 340,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 100,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 0,
+                                    y: 0,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                },{
+                                    x: 0,
+                                    y: 440,
+                                    w: 100,
+                                    h: 100,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.goalNeedsWaypoint = true;
+                    exports.timeout = 120;
+                    break;
+                case RR_Rainbow_ES:
+                case RR_Rainbow_MS:
+                    exports.waypointData.waypointLists = [
+                        {
+                            waypoints: [
+                                {
+                                    x: 270,
+                                    y: 250,
+                                    w: 40,
+                                    h: 40,
+                                    score: 10
+                                },
+                                {
+                                    x: 90,
+                                    y: 185,
+                                    w: 40,
+                                    h: 40,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 390,
+                                    y: 340,
+                                    w: 40,
+                                    h: 40,
+                                    score: 10
+                                },
+                                {
+                                    x: 270,
+                                    y: 330,
+                                    w: 40,
+                                    h: 40,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 390,
+                                    y: 160,
+                                    w: 40,
+                                    h: 40,
+                                    score: 10
+                                },
+                                {
+                                    x: 750,
+                                    y: 180,
+                                    w: 40,
+                                    h: 40,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 485,
+                                    y: 250,
+                                    w: 40,
+                                    h: 40,
+                                    score: 10
+                                },
+                                {
+                                    x: 470,
+                                    y: 490,
+                                    w: 40,
+                                    h: 40,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }
+                    ]
+                    exports.waypointData.waypointsReverse = true;
+                    exports.waypointData.waypointsRainbowMode = true;
+                    exports.timeout = 180;
+                    exports.rainbowColor = [
+                        "#e40303ff",
+                        "#ffed00ff",
+                        "#008026ff",
+                        "#004dffff"
+                    ]
+                    break;
+                case RR_Rainbow_HS:
+                    exports.waypointData.waypointLists = [{
+                        waypoints: [
+                            {
+                                x: 345,
+                                y: 385,
+                                w: 20,
+                                h: 20,
+                                score: 10
+                            },
+                            {
+                                x: 280,
+                                y: 395,
+                                w: 20,
+                                h: 20,
+                                score: 10
+                            }
+                        ],
+                        currentWaypointIdx: -1,
+                        done: false,
+                    },
+                        {
+                            waypoints: [
+                                {
+                                    x: 470,
+                                    y: 363,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                },
+                                {
+                                    x: 475,
+                                    y: 490,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 490,
+                                    y: 265,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                },
+                                {
+                                    x: 700,
+                                    y: 265,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 445,
+                                    y: 175,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                },
+                                {
+                                    x: 565,
+                                    y: 47,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 310,
+                                    y: 175,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                },
+                                {
+                                    x: 382,
+                                    y: 95,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        },
+                        {
+                            waypoints: [
+                                {
+                                    x: 278,
+                                    y: 263,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                },
+                                {
+                                    x: 34,
+                                    y: 160,
+                                    w: 20,
+                                    h: 20,
+                                    score: 10
+                                }
+                            ],
+                            currentWaypointIdx: -1,
+                            done: false,
+                        }]
+                    exports.waypointData.waypointsReverse = true;
+                    exports.waypointData.waypointsRainbowMode = true;
+                    exports.timeout = 240;
+                    exports.rainbowColor = [
+                        "#e40303ff",
+                        "#ff8c00ff",
+                        "#ffed00ff",
+                        "#008026ff",
+                        "#004dffff",
+                        "#750787ff"
+                    ]
+                    break;
+                default:
+                    break;
+            }
+        }
 
 
         function setRuler() {

@@ -657,6 +657,7 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
 
         $('.simScene').onWrap('click', function(event) {
             SIM.setBackground(-1, SIM.setBackground);
+            SIM.resetGame();
             var scene = $("#simButtonsCollapse").collapse('hide');
             $('.menuSim').parent().removeClass('disabled');
             switch (scene) {
