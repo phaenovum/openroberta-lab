@@ -1285,19 +1285,19 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 y: 350,
                                 w: 80,
                                 h: 20,
-                                score: 50
+                                score: 25
                             }, {
                                 x: 400,
                                 y: 400,
                                 w: 50,
                                 h: 50,
-                                score: 100
+                                score: 50
                             }, {
                                 x: 720,
                                 y: 280,
                                 w: 50,
                                 h: 50,
-                                score: 0
+                                score: 25
                             }, {
                                 x: 710,
                                 y: 40,
@@ -1321,31 +1321,31 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 y: 350,
                                 w: 80,
                                 h: 20,
-                                score: 50
+                                score: 25
                             }, {
                                 x: 400,
                                 y: 400,
                                 w: 50,
                                 h: 50,
-                                score: 100
+                                score: 50
                             }, {
                                 x: 530,
                                 y: 120,
                                 w: 50,
                                 h: 50,
-                                score: 100
+                                score: 50
                             },{
                                 x: 720,
                                 y: 280,
                                 w: 50,
                                 h: 50,
-                                score: 0
+                                score: 25
                             },  {
                                 x: 710,
                                 y: 40,
                                 w: 100,
                                 h: 80,
-                                score: 100
+                                score: 50
                             }],
                             currentWaypointIdx: -1,
                             done: false,
