@@ -819,10 +819,10 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
 
             function doesRobotIntersect(robot, rect) {
                 var intersect = false;
-                intersect ||= isInsideRect(robot.frontLeft, rect);
-                intersect ||= isInsideRect(robot.frontRight, rect);
-                intersect ||= isInsideRect(robot.backLeft, rect);
-                intersect ||= isInsideRect(robot.backRight, rect);
+                intersect = isInsideRect(robot.frontLeft, rect) || intersect;
+                intersect = isInsideRect(robot.frontRight, rect) || intersect;
+                intersect = isInsideRect(robot.backLeft, rect) || intersect;
+                intersect = isInsideRect(robot.backRight, rect) || intersect;
                 return intersect;
             }
 
