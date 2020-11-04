@@ -108,7 +108,7 @@ else
 								inkscape "${output_file_dir}/${output_file_base}_$count.svg"  --export-text-to-path --export-plain-svg --export-filename="${output_file_dir}/${output_file_base}_$count_max.svg"
 								scour -i "${output_file_dir}/${output_file_base}_$count_max.svg" -o "${output_file_dir}/${output_file_base}_$count.svg"
 								rm "${output_file_dir}/${output_file_base}_$count_max.svg"
-								inkview "${output_file_dir}/${output_file_base}_$count.svg"
+								#inkview "${output_file_dir}/${output_file_base}_$count.svg"
 								((count++))
 								echo $count
 							fi
