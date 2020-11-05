@@ -488,6 +488,16 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             }
 
         }
+        
+        
+        
+        
+        
+        
+        exports.showScore = function () {
+            exports.goalReached = true;
+        }
+        
 
         var switches = null;
         /*[
@@ -630,6 +640,11 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     }
                 }
                 reloadProgram();
+            }
+
+            if(exports.goalReached) {
+                exports.goalReached = false;
+                resetPose();
             }
 
 

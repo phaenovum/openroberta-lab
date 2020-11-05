@@ -170,6 +170,13 @@ define([ 'exports', 'message', 'log', 'util', 'simulation.simulation','simulatio
 
             $("#simButtonsCollapse").collapse('hide');
         }, 'simVariables clicked');
+
+
+        // special score button
+        $('#simScore').onWrap('click', function (event) {
+            SIM.showScore();
+        }, 'debugMode clicked');
+
     }
 
     function toggleSim() {
