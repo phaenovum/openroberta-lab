@@ -232,7 +232,7 @@ public final class Project {
     }
 
     public JSONObject getSimSensorConfigurationJSON() {
-        return this.simSensorConfigurationJSON;
+        return this.simSensorConfigurationJSON == null ? new JSONObject() : this.simSensorConfigurationJSON;
     }
 
     public void setSimSensorConfigurationJSON(JSONObject simSensorConfigurationJSON2) {
