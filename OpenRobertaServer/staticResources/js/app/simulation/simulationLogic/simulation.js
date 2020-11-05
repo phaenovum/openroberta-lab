@@ -1192,27 +1192,27 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 };
             } else if (currentBackground === RR_Rainbow_ES || currentBackground === RR_Rainbow_MS) {
                 obstacle.x = 290;
-                obstacle.y = 340;
+                obstacle.y = 350;
                 obstacle.w = 25;
                 obstacle.h = 40;
                 obstacle.color = "#444444";
                 var MazeObstacleList = [{ // add obstacles with lists like this
-                    x: 90,
-                    y: 225,
+                    x: 180,
+                    y: 180,
                     w: 40,
                     h: 25,
                     isParallelToAxis: true,
                     color: "#444444"
                 }, {
-                    x: 780,
-                    y: 190,
+                    x: 760,
+                    y: 170,
                     w: 25,
                     h: 40,
                     isParallelToAxis: true,
                     color: "#444444"
                 }, {
-                    x: 470,
-                    y: 520,
+                    x: 480,
+                    y: 490,
                     w: 40,
                     h: 25,
                     isParallelToAxis: true,
@@ -1222,35 +1222,35 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     obslist.push(MazeObstacleList[i]);
                 }
             } else if (currentBackground === RR_Rainbow_HS) {
-                obstacle.x = 300;
-                obstacle.y = 400;
+                obstacle.x = 288;
+                obstacle.y = 408;
                 obstacle.w = 15;
                 obstacle.h = 20;
                 obstacle.color = "#ff00ff";
                 var MazeObstacleList = [{ // add obstacles with lists like this
-                    x: 42,
-                    y: 150,
-                    w: 20,
-                    h: 15,
-                    isParallelToAxis: true,
-                    color: "#ff00ff"
-                }, {
-                    x: 730,
-                    y: 270,
+                    x: 44,
+                    y: 248,
                     w: 15,
                     h: 20,
                     isParallelToAxis: true,
                     color: "#ff00ff"
                 }, {
-                    x: 480,
-                    y: 520,
+                    x: 678,
+                    y: 267,
+                    w: 15,
+                    h: 20,
+                    isParallelToAxis: true,
+                    color: "#ff00ff"
+                }, {
+                    x: 470,
+                    y: 480,
                     w: 20,
                     h: 15,
                     isParallelToAxis: true,
                     color: "#ff00ff"
                 }, {
-                    x: 600,
-                    y: 50,
+                    x: 585,
+                    y: 58,
                     w: 15,
                     h: 20,
                     isParallelToAxis: true,
@@ -1654,8 +1654,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     score: 10
                                 },
                                 {
-                                    x: 90,
-                                    y: 185,
+                                    x: 170,
+                                    y: 195,
                                     w: 40,
                                     h: 40,
                                     score: 10
@@ -1674,8 +1674,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     score: 10
                                 },
                                 {
-                                    x: 270,
-                                    y: 330,
+                                    x: 230,
+                                    y: 340,
                                     w: 40,
                                     h: 40,
                                     score: 10
@@ -1694,8 +1694,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     score: 10
                                 },
                                 {
-                                    x: 750,
-                                    y: 180,
+                                    x: 680,
+                                    y: 165,
                                     w: 40,
                                     h: 40,
                                     score: 10
@@ -1715,7 +1715,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 },
                                 {
                                     x: 470,
-                                    y: 490,
+                                    y: 440,
                                     w: 40,
                                     h: 40,
                                     score: 10
@@ -1746,8 +1746,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 score: 10
                             },
                             {
-                                x: 280,
-                                y: 395,
+                                x: 245,
+                                y: 403,
                                 w: 20,
                                 h: 20,
                                 score: 10
@@ -1766,8 +1766,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     score: 10
                                 },
                                 {
-                                    x: 475,
-                                    y: 490,
+                                    x: 470,
+                                    y: 450,
                                     w: 20,
                                     h: 20,
                                     score: 10
@@ -1786,7 +1786,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     score: 10
                                 },
                                 {
-                                    x: 700,
+                                    x: 660,
                                     y: 265,
                                     w: 20,
                                     h: 20,
@@ -1807,7 +1807,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 },
                                 {
                                     x: 565,
-                                    y: 47,
+                                    y: 57,
                                     w: 20,
                                     h: 20,
                                     score: 10
@@ -1846,8 +1846,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                     score: 10
                                 },
                                 {
-                                    x: 34,
-                                    y: 160,
+                                    x: 64,
+                                    y: 245,
                                     w: 20,
                                     h: 20,
                                     score: 10
