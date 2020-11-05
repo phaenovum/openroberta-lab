@@ -125,8 +125,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                 randomImageObjectList[i] = [];
                 if (randomImageList[i].length !== 0) {
                     for (var j = 0; j < randomImageList[i].length; j++) {
-                        randomImageObjectList[i][j] = new Image();
-                        randomImageObjectList[i][j].src = randomImageList[i][j];
+                        randomImageObjectList[i][j] = null;//new Image();
+                        //randomImageObjectList[i][j].src = randomImageList[i][j];
                     }
                 }
             }
@@ -166,7 +166,35 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         var currentBackground = RR_LineFollowing_ES;
 
         function getrandomObject() {
-            return randomImageObjectList[currentBackground][Math.floor(Math.random() * randomImageObjectList[currentBackground].length)];
+
+            const idx = Math.floor(Math.random() * randomImageObjectList[currentBackground].length);
+
+            var img = randomImageObjectList[currentBackground][idx];
+
+            if(randomImageObjectList[currentBackground][idx] == null) {
+                img = new Image();
+                randomImageObjectList[currentBackground][idx] = img;
+                img.src = randomImageList[currentBackground][idx];
+            }
+
+
+
+            // TODO: move to scene?
+            function updateBackground(scene) {
+                if(img.complete && img.naturalHeight !== 0) {
+                    resizeAll(); // the initial image has no size, this will break the scene and we need to resize ist
+                    //console.log("image loaded");
+                } else {
+                    //console.log("image not loaded ...");
+                    setTimeout(updateBackground, 500, scene);
+                }
+            }
+
+            updateBackground(scene);
+
+
+
+            return randomImageObjectList[currentBackground][idx];
         }
 
         function setBackground(num, callback) {
