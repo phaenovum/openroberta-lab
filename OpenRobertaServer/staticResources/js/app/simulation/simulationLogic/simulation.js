@@ -495,7 +495,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             waypointsRainbowMode: true,
             // TODO: settings per waypoint?
             waypointsReverse: true, // forces the player to move the same way backwards
-            waypointsDebug: true
+            waypointsDebug: false
 
         };
 
