@@ -1512,7 +1512,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                         }
                     ]
                     exports.goalNeedsWaypoint = true;
-                    exports.timeout = 120;
+                    exports.timeout = 180;
                     break;
                 case RR_Maze_HS:
                     exports.waypointData.waypointLists = [
@@ -1639,7 +1639,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                         }
                     ]
                     exports.goalNeedsWaypoint = true;
-                    exports.timeout = 120;
+                    exports.timeout = 180;
                     break;
                 case RR_Rainbow_ES:
                 case RR_Rainbow_MS:
@@ -1727,7 +1727,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                     ]
                     exports.waypointData.waypointsReverse = true;
                     exports.waypointData.waypointsRainbowMode = true;
-                    exports.timeout = 180;
+                    exports.timeout = 300;
                     exports.rainbowColor = [
                         "#e40303ff",
                         "#ffed00ff",
@@ -1858,7 +1858,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                         }]
                     exports.waypointData.waypointsReverse = true;
                     exports.waypointData.waypointsRainbowMode = true;
-                    exports.timeout = 240;
+                    exports.timeout = 300;
                     exports.rainbowColor = [
                         "#e40303ff",
                         "#ff8c00ff",
