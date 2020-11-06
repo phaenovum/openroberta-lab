@@ -823,6 +823,9 @@ define(['simulation.simulation', 'simulation.math', 'util', 'interpreter.constan
                 intersect = isInsideRect(robot.frontRight, rect) || intersect;
                 intersect = isInsideRect(robot.backLeft, rect) || intersect;
                 intersect = isInsideRect(robot.backRight, rect) || intersect;
+                var midlefront = {rx:(robot.frontRight.rx-robot.frontLeft.rx)/2+robot.frontLeft.rx,
+                                    ry:(robot.frontRight.ry-robot.frontLeft.ry)/2+robot.frontLeft.ry};
+                intersect = isInsideRect(midlefront, rect) || intersect;
                 return intersect;
             }
 

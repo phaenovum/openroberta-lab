@@ -495,7 +495,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             waypointsRainbowMode: true,
             // TODO: settings per waypoint?
             waypointsReverse: true, // forces the player to move the same way backwards
-            waypointsDebug: false
+            waypointsDebug: true
 
         };
 
@@ -1330,14 +1330,14 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 h: 20,
                                 score: 25
                             }, {
-                                x: 400,
-                                y: 400,
+                                x: 650,
+                                y: 340,
                                 w: 50,
                                 h: 50,
                                 score: 50
                             }, {
-                                x: 720,
-                                y: 280,
+                                x: 730,
+                                y: 230,
                                 w: 50,
                                 h: 50,
                                 score: 25
@@ -1366,20 +1366,20 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
                                 h: 20,
                                 score: 25
                             }, {
-                                x: 400,
-                                y: 400,
+                                x: 250,
+                                y: 320,
                                 w: 50,
                                 h: 50,
                                 score: 50
                             }, {
-                                x: 530,
-                                y: 120,
+                                x: 650,
+                                y: 330,
                                 w: 50,
                                 h: 50,
                                 score: 50
                             },{
-                                x: 720,
-                                y: 280,
+                                x: 730,
+                                y: 230,
                                 w: 50,
                                 h: 50,
                                 score: 25
