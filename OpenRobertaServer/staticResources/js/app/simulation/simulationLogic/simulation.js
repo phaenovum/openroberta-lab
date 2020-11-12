@@ -671,8 +671,8 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
             }
 
             if(exports.goalReached) {
-                exports.goalReached = false;
-                resetPose();
+                //exports.goalReached = false;
+                //resetPose();
             }
 
 
