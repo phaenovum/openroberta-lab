@@ -90,7 +90,7 @@ define(['exports', 'simulation.scene', 'simulation.math', 'program.controller', 
         var RR_Rainbow_HS = 16;
 
         function preloadImages() {
-            imgGoal.src = "/js/app/simulation/simBackgrounds/goal.svg";
+            imgGoal.src = "/js/app/simulation/simBackgrounds/roborave/goal.svg";
 
             if (isIE()) {
                 imgList = imgListIE;
